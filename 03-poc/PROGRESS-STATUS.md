@@ -1,0 +1,114 @@
+# POC Progress & Handoff Status
+
+**Last updated:** 2026-07-31
+**Read this first in any new session** — it records where the POC stands, what is verified,
+what is blocked, and the exact commands to continue. The repo is otherwise explained in
+`README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
+
+---
+
+## The two pilot features
+
+The POC is running **two** small pilot features in parallel, each with its own wiki index
+namespace and eval set, each awaiting SME grading.
+
+### Feature 1 — searchEmployer SBS pagination (RLSI-6059, Sonata 16.2)
+- Wiki page: `RLSI-6059 searchEmployer SBS to support pagination` (space CliRln, id **973706490**)
+- Jira: BASE-458832 (story), FEAT-9707 (work package), BASE-458836 (release note, 16.2),
+  BASE-458911 (schema change), BASE-460256 / BASE-460272 (defects)
+- SME: **Pratigya**
+- Index namespace: `wiki` → `data/wiki.json` (17 chunks)
+- Eval: `eval/test_questions.md` (27 questions) → `eval/results.csv` — **27/27 cited, awaiting grading**
+- Key spec: optional `pagingRange` element; default 20 results/page from index 1; ordered by Employer Number (sloc_code)
+
+### Feature 2 — Direct Uploads: saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6)
+- Wiki page: `LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs` (space CliStl, id **1001573493**)
+- Jira: FEAT-10148 (work package), FEAT-10149 (IA), FEAT-10150 (design), BASE-464868 (story),
+  BASE-464872 (release note, 16.6)
+- SME: **Sanjay Joshi**
+- Index namespace: `wiki_directupload` → `data/wiki_directupload.json` (15 chunks)
+- Eval: `eval/test_questions_directupload.md` (21 questions) → `eval/results_directupload.csv` — **20/21 cited, awaiting grading**
+- Key change: hardcoded upload limit **2MB → 10MB**; RDA already at 10MB (out of scope); existing error message must be maintained
+- **Grading instructions:** `eval/GRADING-BRIEFING.md` (rubric + the specific rows each SME must judge + 80% go/no-go thresholds)
+
+---
+
+## What is built & verified (working against the real systems)
+
+| Area | State |
+|---|---|
+| Jira access | `helpdesk.bravurasolutions.com`, Jira **Server/DC**, Bearer-PAT auth. api/3 → api/2 fallback (Server soft-404s api/3 with HTML 200). Verified: search, version-range endpoint, citations. |
+| Confluence access | `wiki.bravurasolutions.com`, Bearer-PAT. Page fetch/ingest verified. |
+| `.env` loading | `config/env.py` → `load_env()`; wired into `tools/__init__.py`, `orchestrator.py`, `ingestion/wiki_ingest.py`. Also **strips Claude Code's inherited `ANTHROPIC_BASE_URL` localhost proxy** so the POC reaches the real API (this was the cause of the long-running `401 invalid_api_key` — the key was fine). |
+| Chunking | `retrieval/chunking.py` supports ATX **and setext** headings (Confluence→markdownify uses setext; without it a page collapses to 1 chunk). |
+| Index | `VectorIndex.add()` now **replaces** the namespace (was appending → duplicate chunks on re-ingest). |
+| Namespaces | `WIKI_NAMESPACE` env / `--namespace` arg on `wiki_ingest.py` and `run_eval.py`; `--questions` / `--results` args on `run_eval.py`. |
+| Orchestrator | **Prompt caching** (system + last tool) and **usage tracking** (`usage_summary()`) added. Model default `claude-sonnet-5`. |
+| Eval harness | `run_eval.py` lazy-imports orchestrator so `WIKI_NAMESPACE` is honoured; UTF-8 CSV/stdout (Windows cp1252 was crashing runs on `≤`/`→`). |
+
+## Measured eval cost (feature 2, 21 questions)
+
+45 API calls · 687,145 input tokens · 10,384 output tokens · 77,616 cache-read → **~$2.25 @ Sonnet**.
+Cost is driven almost entirely by **input context** (retrieved wiki chunks), not model output.
+If costs matter: cap chunk text sent to the model (~1500 chars), reduce `wiki_search` default results,
+and lower `max_tokens`. Not yet applied — pending decision.
+
+---
+
+## Known issues / data findings (feed the Phase-1 backlog)
+
+1. **Jira free-text search is unreliable on this DC instance**: `text ~` returned nothing even for exact
+   summary strings. `jira_search` now uses `summary ~ / description ~` and does **not** default-scope to a
+   single project (that was hiding BASE/FEAT tickets). Side effect: cross-project free-text now surfaces
+   out-of-pilot tickets (e.g. the **LIBSON-3635 helpdesk ticket**, with extra facts like "web upload limit
+   →100MB") — answers can drift outside the pilot's scope. Judge per-answer.
+2. **BASE tickets are mostly empty shells** (no descriptions, no populated acceptance-criteria field).
+   Substance lives in the wiki IA pages. `customfield_22644` is the real Acceptance Criteria field id.
+3. **Release-note ambiguity (feature 1)**: BASE-458836 (Sonata 16.2, official) vs BASE-458827
+   (Sonata 16.3, porting). The assistant picked the porting note on the fixVersion question.
+4. **Feature-1 negative question**: "Does searchEmployer support searching by Employer External Reference?"
+   was answered "Yes, since Sonata 6.0" (old ticket BASE-112902); the enhancement struck external-ref
+   searching **out of scope**. Expected "No".
+5. **Wiki typo**: the Direct Uploads page consistently misspells the operation as `saveExternalCorespondence`.
+6. **Security**: the Jira PAT and wiki token have appeared in chat transcripts. Rotate the Jira PAT that is
+   hardcoded in `~/.claude/mcp.json` (consider `{env:...}` substitution). `.env` is gitignored — never commit it.
+
+---
+
+## Blocked / pending at last session
+
+- **Repo push to GitHub** — remote added (`https://github.com/itsatgupta/sonata-kb`, empty repo);
+  `master` has 3 commits (Phase-POC complete, grading briefing, log cleanup). **Push was interrupted by a
+  transient tooling outage** — run `git push -u origin master` (optionally `git branch -m master main` first).
+- **SME grading** — Pratigya (feature 1) and Sanjay Joshi (feature 2) need to fill `score_manual`
+  (correct / partial / wrong / hallucinated_citation) per `eval/GRADING-BRIEFING.md`.
+- **Findings doc** — `03-poc/poc-findings.md` (phase-0 deliverable) not yet written; see "Known issues" above.
+- **Go/no-go** — after grading: ≥80% correct-with-citation per feature → proceed to Phase 1.
+
+---
+
+## Useful commands (run from `03-poc/agent`, venv at `03-poc/agent/venv`)
+
+```bash
+# Jira sanity
+venv/Scripts/python.exe -c "from tools.jira_tool import jira_search; print(jira_search(jql='project = SON ORDER BY updated DESC', max_results=3))"
+
+# Wiki ingest (feature 1 / feature 2)
+venv/Scripts/python.exe ingestion/wiki_ingest.py --namespace wiki --page-id 973706490
+venv/Scripts/python.exe ingestion/wiki_ingest.py --namespace wiki_directupload --page-id 1001573493
+
+# Eval run (any feature)
+venv/Scripts/python.exe eval/run_eval.py --namespace wiki --questions eval/test_questions.md --results eval/results.csv
+venv/Scripts/python.exe eval/run_eval.py --namespace wiki_directupload --questions eval/test_questions_directupload.md --results eval/results_directupload.csv
+
+# Live smoke question
+venv/Scripts/python.exe -c "from orchestrator import ask; print(ask('What is the default page size for searchEmployer?')[0])"
+```
+
+---
+
+## Environment notes
+
+- Always run from `03-poc/agent` (imports assume it is on `sys.path`).
+- Credentials live in `03-poc/agent/.env` (gitignored). Token shapes: Jira PAT (`MTMw…`), wiki PAT (`MjM5…`), Anthropic `sk-ant-api03-…`.
+- Anthropic account had a low-balance (`400 credit balance is too low`) episode; a $10 top-up resolved it. If you see that error again, check billing before debugging code.

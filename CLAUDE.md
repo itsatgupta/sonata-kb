@@ -3,6 +3,13 @@
 This file is the standing instruction set for Claude Code / any agent working in this
 repo. Read this in full before writing or modifying ingestion, retrieval, or agent code.
 
+## Current work status — read this first in a new session
+
+The POC is mid-flight with **two pilot features** (searchEmployer SBS pagination and
+Direct Uploads). Before doing anything, read `sonata-kb/03-poc/PROGRESS-STATUS.md` for
+the live state: what is verified, what is blocked, pending SME grading, and the exact
+commands to continue.
+
 ## What this repo is
 A POC-stage knowledge assistant for Bravura's Sonata product. It answers functional
 questions and (from Phase 3 onward) drafts upgrade-impact deliverables, grounded in
