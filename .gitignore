@@ -1,0 +1,20 @@
+# --- Secrets — never commit real tokens (CLAUDE.md rule 5) ---
+.env
+.env.*
+
+# --- Python ---
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# --- POC local data: vector index + ingestion output ---
+data/
+
+# --- Local-only Claude Code settings ---
+.claude/settings.local.json
+
+# --- OS noise ---
+.DS_Store
+Thumbs.db

@@ -1,0 +1,280 @@
+Q: What does the optional pagingRange element do in the searchEmployer operation?
+A: ## The `pagingRange` element in `searchEmployer`
+
+The `pagingRange` element (of type `dgt:PagingRangeType`) is an **optional** element that can appear in both the `SearchEmployerRequestType` and `SearchEmployerResponseType` (Min: 0, Max: 1). It enables **pagination** of employer search results:
+
+- **Purpose**: Allows a subset of the results matching the search criteria to be returned, rather than the full result set.
+- **Request usage**: You can specify:
+  - `firstResult` — the index of the first row to return
+  - `resultsPerPage` — how many results to return per page
+- **Response usage**: The response echoes back `firstResult` and `resultsPerPage`, and also returns `totalResults` — the total number of employers matching the search criteria.
+- **Default behavior if omitted**: If `pagingRange` is not provided in the request, the system defaults to **20 results per page, starting at index 1**.
+- **Ordering**: Results are always sorted by **Employer Number** (`sloc_code`).
+
+Example behavior (from acceptance criteria):
+- With 80 employers matching and `firstResult=1`, `resultsPerPage=50` → first 50 employers returned, response shows `firstResult=1`, `resultsPerPage=50`, `totalResults=80`.
+- With `firstResult=51`, `resultsPerPage=50` on the same 80 results → the remaining 30 employers are returned starting from the 51st result.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: What is the default number of results per page if pagingRange is not supplied in a searchEmployer request?
+A: The default is **20 results per page**, starting at result index 1, sorted by Employer Number (sloc_code).
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS — "The element will be optional in the request and if not provided, the default value will be 20 results per page beginning with the result with index 1. The results will be ordered by the Employer Number (sloc_code)."
+----------------------------------------
+Q: What is the default index of the first result returned if pagingRange is not supplied?
+A: If `pagingRange` is not supplied in the `searchEmployer` request, the default behavior returns 20 results per page beginning with the result at **index 1**.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: What is the data type of the pagingRange element added to the searchEmployer operation?
+A: The `pagingRange` element added to the `searchEmployer` operation is of type **`dgt:PagingRangeType`** (optional, Min: 0, Max: 1) in both the request and response schemas.
+
+- Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility
+- Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: What is the cardinality of the pagingRange element in the searchEmployer request?
+A: The `pagingRange` element in the `SearchEmployerRequestType` (dgt:PagingRangeType) is **Optional**, with cardinality **Min: 0, Max: 1**. If it is not provided, the SBS defaults to returning 20 results per page starting at index 1, ordered by Employer Number.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: What order are paged searchEmployer results returned in?
+A: Paged `searchEmployer` results are ordered by **Employer Number (sloc_code)**. This applies whether or not the `pagingRange` element is included in the request (Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS), and is confirmed across the acceptance criteria (AC-4 through AC-7), which each state "The Employers are sorted by the Employer Number."
+----------------------------------------
+Q: What does the searchEmployer response return alongside the paged employer results?
+A: Alongside the paged employer results, the `searchEmployer` response includes a **`pagingRange`** element (`SearchEmployerResponseType/pagingRange/dgt:PagingRangeType`). This element reports:
+
+- **firstResult** – the index of the first row returned in the page
+- **resultsPerPage** – the number of results returned per page
+- **totalResults** – the total number of results meeting the search criteria (across all pages, not just the current page)
+
+Results are ordered by Employer Number (`sloc_code`). If `pagingRange` isn't supplied in the request, the default is 20 results per page starting at index 1.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: What Sonata release introduced the searchEmployer pagination enhancement?
+A: The **searchEmployer pagination enhancement** — adding the optional `pagingRange` element (type `PagingRangeType`) to support pagination for higher employer volumes — was introduced in **Sonata 16.2**, via the SBS schema change (Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility).
+
+Related follow-up automation/test work extending this (e.g., returning multiple results by external reference) was tracked for **Sonata 16.3** (Jira: BASE-458819 — FEAT-9707 - RLSI-6059 - searchEmployer SBS to support pagination and return employer external refs - Automation - Create / Enhance Automated Test).
+----------------------------------------
+Q: What product is the main driver for adding pagination to searchEmployer?
+A: The pagination enhancement for **searchEmployer** was driven by **Royal London** — the wiki page is hosted in the client-specific "CliRln" (Client Royal London) space, and the originating requirement is titled "RLSI-6059 searchEmployer SBS to support pagination," an RLSI-prefixed (Royal London Solution/Initiative) ticket linked to components **SBS/Workplace** (Jira: RLSI-6059 — searchEmployer SBS to support pagination; Wiki: RLSI-6059 searchEmployer SBS to support pagination § Solution Overview).
+
+The associated work package FEAT-9707 confirms the same origin (Jira: FEAT-9707 — RLSI-6059 - searchEmployer SBS to support pagination and return employer external refs), and the underlying rationale — supporting higher Employer volumes with consistent ordering, total-count visibility, and incremental retrieval — reflects Royal London's scale/performance needs for their Workplace pension scheme employer base (Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange... to support pagination for higher Employer volumes, ensuring search flexibility).
+----------------------------------------
+Q: What is the purpose of the pagingRange element as stated in the SFC-04 specification?
+A: According to the SFC-04 specification, the **pagingRange** element (`SearchEmployerRequestType/pagingRange/dgt:PagingRangeType`) is used to **request paging by passing the first row and page size**. Specifically:
+
+- It allows the `searchEmployer` service to **return a subset of results** that meet the specified search criteria, rather than all matching records at once.
+- It lets the caller **specify how many results should be returned per page** and **the index of the first row to return**.
+- It also **returns the total number of results** meeting the search criteria (so callers know how many pages exist).
+- It is **optional** in the request — if not provided, the default is **20 results per page beginning at index 1**, with results ordered by the Employer Number (`sloc_code`).
+- It also appears in the response (`SearchEmployerResponseType/pagingRange`) to echo back the paging parameters used and the total results found.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: Why was pagination added to the searchEmployer operation?
+A: Pagination (the new optional `pagingRange` element) was added to the **searchEmployer** SBS operation to support higher Employer search volumes and improve performance, usability, and response management. Specifically, the rationale was to:
+
+- **Ensure consistent, ordered results** — results are returned in a defined order (sorted by Employer Number), improving data clarity and predictability.
+- **Provide visibility of total matches** — the response now returns the total number of records meeting the search criteria.
+- **Improve performance** — results are returned in manageable subsets/pages rather than one large payload, optimizing system performance and reducing response time.
+- **Give callers flexibility** — users can specify the number of records per page (`resultsPerPage`) based on business needs.
+- **Support incremental retrieval** — users can define the starting index (`firstResult`) so that, together with page size, the full result set can be retrieved incrementally and efficiently.
+
+This was driven by client requirement RLSI-6059 (Royal London), which needed `searchEmployer` to scale for higher Employer volumes and align with Workplace Pension/HMRC requirements. If no `pagingRange` is supplied, the default is 20 results per page starting at index 1.
+
+Citations:
+- Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility
+- Jira: BASE-458836 — Sonata Business Service (SBS) - Operation searchEmployer now supports pagination & indexed sorting via new optional pagingRange element, improving scalability for Workplace Pension product, ensuring alignment with HMRC requirements
+- Wiki: RLSI-6059 searchEmployer SBS to support pagination § High Level Solutions
+- Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: Why is the pagingRange element optional rather than mandatory in the searchEmployer request?
+A: The `pagingRange` element is optional (Min: 0, Max: 1) in the `searchEmployer` request because the service is designed to work with sensible pagination defaults when the caller doesn't need to control paging explicitly. Specifically:
+
+- If `pagingRange` is not provided, the search still returns results, defaulting to **20 results per page starting at index 1**, ordered by Employer Number (sloc_code).
+- The element exists to let SBS users *optionally* override this default — specifying how many results per page (`resultsPerPage`) and which row to start from (`firstResult`) — for cases where they want to page through large result sets incrementally.
+- This is confirmed by the acceptance criteria: running the SBS without `pagingRange` on ≤20 matching employers returns all of them (AC-4), and without it on >20 matching employers returns the first 20 by default (AC-5) — showing the request functions correctly whether or not the tag is supplied.
+
+So making it optional avoids forcing every caller to specify pagination parameters just to get a default, reasonable result set, while still allowing explicit control when needed.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: What did the searchEmployer operation return before the pagination enhancement?
+A: Before the pagination enhancement, the `searchEmployer` SBS had no `pagingRange` element at all — it simply returned **all** Employers matching the search criteria in a single, unordered response, with no way to limit results per page, no starting index control, and no indication of the total number of matching records. This is confirmed by the enhancement's stated rationale, which lists what was previously missing:
+
+- No defined/consistent order for results
+- No visibility of the total number of matching records
+- No ability to return results in manageable subsets (results came back as one large payload)
+- No way for the caller to specify records per page
+- No way for the caller to set a starting index for incremental retrieval
+
+(Wiki: RLSI-6059 searchEmployer SBS to support pagination § Solution Overview / High Level Solutions — HLS-02 "Supporting pagination in Employer search (RLSI-6059)")
+
+Related delivery ticket confirms the same "before" state and the fix: *"Sonata Business Service (SBS) operation searchEmployer has been enhanced with a new element pagingRange... The rational behind this change is to: Ensure results are returned in a defined and consistent order... Provide visibility of total number of matching records... Return results in manageable subsets rather than a single large payload..."* (Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility)
+
+In short: previously, `searchEmployer` returned the **complete, unpaginated set** of matching Employers in one response, with no ordering guarantee and no total-count metadata — a problem for performance/usability once Employer volumes grew large (e.g. for the Workplace Pension product).
+----------------------------------------
+Q: What changed in the searchEmployer request schema in Sonata 16.2?
+A: Based on Jira and wiki content for Sonata 16.2, the `searchEmployer` request schema changed as follows:
+
+**New optional `pagingRange` element added (type `PagingRangeType`)**
+- Added to both `SearchEmployerRequestType` and `SearchEmployerResponseType` (min 0, max 1 occurrence).
+- In the **request**, it lets callers specify pagination by passing the first result index (`firstResult`) and the page size (`resultsPerPage`).
+- If `pagingRange` is **not provided**, the service defaults to returning 20 results per page, starting at result index 1.
+- Results are ordered by **Employer Number** (`sloc_code`).
+- The corresponding **response** echoes back `pagingRange` and adds `totalResults`, giving visibility into the total number of records matching the search criteria — so a large result set can be retrieved incrementally across multiple calls.
+
+This was delivered to improve performance, usability, and response management for higher employer volumes (relevant to Workplace Pension/HMRC-scale searches), and it also underpins related work to return multiple employers when searching by a non-unique Employer External Reference.
+
+Citations:
+- Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility
+- Jira: BASE-458836 — Sonata Business Service (SBS) - Operation searchEmployer now supports pagination & indexed sorting via new optional pagingRange element, improving scalability for Workplace Pension product, ensuring alignment with HMRC requirements
+- Jira: FEAT-9707 — RLSI-6059 - searchEmployer SBS to support pagination and return employer external refs
+- Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+
+Note: my `jira_version_range` tool call (16.1→16.2 and 16.0→16.2) returned no results — version labels in this data appear as "Sonata 16. 2" (with a space), which may not match the tool's expected format, so I relied on direct Jira search instead.
+----------------------------------------
+Q: Would a client that calls searchEmployer without pagingRange see a change in behaviour?
+A: Yes — behaviour changes, but the change is backward-compatible in that no request modification is required, only the response content shifts.
+
+- **pagingRange is optional** in the `searchEmployer` request — a client that doesn't send it won't get a validation error. (Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS)
+- If pagingRange is omitted, the SBS now **defaults to 20 results per page, starting at index 1**, whereas previously (per the acceptance criteria) all matching employers were presumably returned unpaginated:
+  - **AC-4**: If ≤20 employers match, all are returned (no visible change).
+  - **AC-5**: If **more than 20** employers match, only the **first 20** are now returned by default (with the default pagination setting), sorted by Employer Number, along with a total-results count — so a client relying on getting *all* matching employers in one call **will now silently receive a truncated (first-page) result set** if more than 20 match. (Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS)
+- Additionally, results are now **always sorted by Employer Number (sloc_code)**, and the response includes the total number of results meeting the search criteria — both new aspects of behaviour even without the client supplying pagingRange. (Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS)
+- This is confirmed in Jira: "*pagingRange* is an optional element in request/response... The default value to return 20 records per page, starting from index 1." (Jira: BASE-460238 — RLSI-6059 searchEmployer SBS to support pagination and return multiple results when searching by External Reference)
+
+**Bottom line:** The call itself won't break, but if a client's search criteria matches more than 20 employers, it will now only get the first 20 (sorted by Employer Number) instead of the full result set, plus a new total-results indicator in the response — a functional behaviour change to watch for during upgrade testing.
+----------------------------------------
+Q: What originally-planned objectives were dropped from the searchEmployer enhancement scope?
+A: Based on the wiki documentation for the **RLSI-6059 searchEmployer SBS to support pagination** enhancement, several originally-planned objectives were dropped (shown as struck-through/cancelled in the page):
+
+1. **Searching Employer by multiple Employer External References** – the original plan included allowing a request to search using multiple Employer External References (current API only supports a single reference per request), but this was moved to "Out of Scope" (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Out of Scope).
+
+2. **Returning multiple Employer External References in the Search Employer response** – originally planned so the API could return more than one External Reference type per employer (currently limited by the single "Employer Reference Template" setting), but this too was placed in "Out of Scope" (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Out of Scope).
+
+3. **HLS-01 "Returning all Employer External References in Employer search" (RLSI-6149)** – a full high-level solution originally proposed to change searchEmployer SBS logic so it could return multiple employers with the same non-unique External Reference value, and to support returning multiple reference types — this entire solution item is struck through, indicating it was dropped from delivered scope (Wiki: RLSI-6059 searchEmployer SBS to support pagination § High Level Solutions).
+
+4. Correspondingly, in the **Solution Overview**, the objectives "searching by Employer External Reference" and "returning multiple Employers meeting search criteria when search is run by an External Reference Value" are both struck through, leaving only **pagination support** as the delivered objective (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Solution Overview).
+
+**In summary:** the enhancement was originally scoped to add pagination *and* improve External Reference search/return capability (multi-value search and multi-reference-type return), but only the **pagination** capability was ultimately delivered — the External Reference-related objectives were dropped from scope.
+----------------------------------------
+Q: What does the searchEmployer response echo when a client requests a page starting at result 51 with 50 results per page and 80 employers match?
+A: This is exactly the scenario in **AC-7** of the pagination spec (80 employers total, firstResult=51, resultsPerPage=50):
+
+- **30 Employers are returned**, starting with the 51st result (since only 80 exist, results 51–80 are returned).
+- Employers are sorted by the Employer Number.
+- The response echoes back:
+  - `pagingRange/firstResult = 51`
+  - `pagingRange/resultsPerPage = 50`
+  - `pagingRange/totalResults = 80`
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS (AC-7)
+----------------------------------------
+Q: Does the searchEmployer enhancement support searching by Employer External Reference?
+A: Yes. The **searchEmployer** SBS already supports searching by Employer External Reference — this was implemented as far back as Sonata 6.0 (Jira: BASE-112902 — SchemeService.searchEmployer - implement searching by employer external reference).
+
+Key details of how it works:
+
+- **Single reference search**: searchEmployer supports searching by a single Employer External Reference and returning a single External Reference. The type of external reference returned is controlled by the *Employer Reference Template* field under *Common > Schemes > Scheme Structure > Scheme Level Maintenance > Scheme* (Wiki: RLSI-6059 searchEmployer SBS to support pagination § ~~SEF-01 Employer External Reference in searchEmployer SBS~~).
+- **Matching type constraint**: Returning multiple Employers with the same External Reference value is only possible if the external reference passed in the request matches the type selected in the *Employer Reference Template* — i.e., the Platform Operator must pre-configure which reference type is searchable, and that same type is used for both the request and the response (Wiki: RLSI-6059 searchEmployer SBS to support pagination § ~~SFC-02 Enhance searchEmployer SBS to return multiple Employers when search by Employer External Reference.~~).
+- **Non-unique references / multiple results**: Originally, if multiple Employers shared the same non-unique External Reference value, the search would fail with error *"BRA-151053 - Cannot find a unique scheme location..."*. This was enhanced (Jira: RLSI-6149 — searchEmployer SBS to return multiple Employers by non-unique external reference) so the validation restricting results to a single match was removed specifically for searchEmployer, allowing multiple matching Employers to be returned when searching by a non-unique External Reference.
+- **Limitation (out of scope)**: Searching by *multiple* different Employer External References in a single request is **not** supported — only one Employer External Reference value can be passed per request (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Out of Scope).
+- **Pagination**: More recently, `pagingRange` was added to searchEmployer to paginate results (default 20 records per page) when a search — including one by non-unique External Reference — returns multiple Employers (Jira: BASE-460238 — RLSI-6059 searchEmployer SBS to support pagination and return multiple results when searching by External Reference).
+- Related historical defects confirm this capability has existed and been fixed over time when broken, e.g. Jira: DISCO-924 — Unable to search for employer via SBS using external reference, and Jira: BASE-195626 — Unable to search for employer via SBS using external reference.
+
+**Summary**: Yes, searchEmployer supports searching by Employer External Reference, but only one reference (of the type configured in the Employer Reference Template) per request; multiple Employers can be returned if that reference is non-unique, with pagination support added later.
+----------------------------------------
+Q: Does the searchEmployer pagination change return Employer External References in the response?
+A: ## Answer: No — the pagination change was descoped from returning Employer External References
+
+The pagination enhancement to `searchEmployer` (RLSI-6059 / FEAT-9707 / BASE-458911) delivered only the `pagingRange` element for paging (default 20 records per page, starting at index 1). It does **not** deliver the return of multiple/employer external references.
+
+Key evidence:
+
+- The wiki design page's **Objectives** section shows the "return Employer External References" objective struck through (descoped), leaving only: "To be able to divide into pages the results returned by the Employer search API." (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Objectives)
+- **Out of Scope** explicitly lists (struck through, i.e. confirmed out of scope): "Returning multiple Employer External References in Search Employer API — Current Sonata API allows returning a single Employer External Reference by Search Employer... configured in Employer Reference Template field in Scheme details." (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Out of Scope)
+- **High Level Solutions** confirms this work was split off to a separate initiative — "Returning Employer External References in Employer search (RLSI-6149)" is struck through and marked as delivered under a different ticket, while HLS-02 "Supporting pagination in Employer search (RLSI-6059)" remains the actual scope of this change. (Wiki: RLSI-6059 searchEmployer SBS to support pagination § High Level Solutions)
+- Jira confirms this split: RLSI-6059's description notes "Requirements related to searching by employer external reference has been moved to RLSI-6149." (Jira: RLSI-6059 — searchEmployer SBS to support pagination)
+- The schema change ticket BASE-458911 confirms only the `pagingRange` element (type `PagingRangeType`) was added to `searchEmployer` for this change — no external reference field is mentioned as added. (Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange...)
+
+So, if you need multiple/employer external references returned in `searchEmployer` search results, that is covered under the separate ticket **RLSI-6149**, not this pagination change.
+----------------------------------------
+Q: Does the pagingRange element apply to the createEmployerAccount operation?
+A: No — the `pagingRange` element applies only to the **searchEmployer** operation, not `createEmployerAccount`. It was added to `SearchEmployerRequestType/pagingRange` and `SearchEmployerResponseType/pagingRange` to support paging of search results (optional, defaults to 20 results per page ordered by Employer Number). `createEmployerAccount` appears only in the regression criteria as one of several other SBS operations that should be regression-tested when this change is made — it's not itself a paginated search operation and has no `pagingRange` element defined for it.
+
+Citation: Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS
+----------------------------------------
+Q: Does the searchEmployer pagination feature affect the getEmployer operation?
+A: No — the pagination feature is scoped specifically to the **searchEmployer** SBS operation and does not change **getEmployer**.
+
+Key evidence:
+
+- The design explicitly separates the two operations: an assumption noted "If all Employer External References must be retrieved by Sonata API, **getEmployer** operation should be used" — implying getEmployer serves a different retrieval purpose and is not being modified by this change (Wiki: RLSI-6059 searchEmployer SBS to support pagination § Assumptions).
+- The pagination solution (HLS-02) and the new `pagingRange` element (SFC-04) are defined only against `SearchEmployerRequestType`/`SearchEmployerResponseType`, not `getEmployer` (Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS).
+- **getEmployer** does appear in the **Regression Criteria** table (RC-1 through RC-3), but only as one of many operations that must be regression-tested to confirm existing behaviour (e.g., single/multiple/no employer identified by external reference) still works correctly — it is not itself receiving the pagination feature (Wiki: RLSI-6059 searchEmployer SBS to support pagination § SFC-04 pagingRange added to searchEmployer SBS).
+- The Jira epic (RLSI-6059) and its Work Package (FEAT-9707), plus the schema-change ticket BASE-458911, all describe the `pagingRange` element as being added specifically to the **searchEmployer** operation only (Jira: RLSI-6059 — searchEmployer SBS to support pagination; Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange...).
+
+So getEmployer is only in scope for regression testing (to ensure no side effects), not for functional change — the pagination enhancement itself is confined to searchEmployer.
+----------------------------------------
+Q: What Jira release-note ticket documents the searchEmployer pagination change?
+A: The searchEmployer pagination change is documented in **BASE-458911** — "Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility" (fix version Sonata 16.2).
+
+This is the SBS Schema Change ticket that describes the new optional `pagingRange` element, which:
+- Ensures search results are returned in a defined and consistent order
+- Provides visibility of the total number of matching records
+- Returns results in manageable subsets rather than one large payload
+- Allows the caller to specify records per page and starting index
+
+The underlying enhancement request is **RLSI-6059** — "searchEmployer SBS to support pagination," tracked via work package **FEAT-9707** — "RLSI-6059 - searchEmployer SBS to support pagination and return employer external refs."
+
+Citation: Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility
+----------------------------------------
+Q: What Jira ticket tracks the SBS schema change that added the pagingRange element?
+A: The Jira ticket is **BASE-247609** — "SBS Operations Enhanced on Account / Model Portfolios Search and Bulk Rebalance / Reassignment of Investment Profiles" (fix version: Sonata 9.10). It documents the schema change to `searchModelPortfolio.xsd`, adding a new optional `pagingRange` element of type `PagingRangeType` to both the `SearchModelPortfolioRequestType` and `SearchModelPortfolioResponseType`.
+
+(Note: there is also a corresponding port ticket, **BASE-279208**, which ports the same change to Remoh 8.5.)
+
+Citation: Jira: BASE-247609 — SBS Operations Enhanced on Account / Model Portfolios Search and Bulk Rebalance / Reassignment of Investment Profiles
+----------------------------------------
+Q: What defect reports 14 failing TDDs for the SaveEmployerTest and GetEmployerTest classes?
+A: I found the exact match: **BASE-460256 — "TDD Failures for SaveEmployerTest and GetEmployerTest Classes"**.
+
+The defect states: "14 TDD's are failing for classes 'SaveEmployerTest' and 'GetEmployerTest'" with the associated Jenkins build reference (Sonata_IntegrationSuite/master/8880). It is logged against fix version **Sonata 16.2** and is currently **Closed**.
+
+Citation: Jira: BASE-460256 — TDD Failures for SaveEmployerTest and GetEmployerTest Classes
+----------------------------------------
+Q: What exception does BASE-460272 report during the CreateEmployerAccount SBS request?
+A: BASE-460272 reports an HTTP 500 SOAP fault during the `CreateEmployerAccount` SBS request, returning a layered exception chain rooted in a **`java.lang.StackOverflowError`**. The full fault chain is:
+
+1. `ServiceException: BRA-154165` – Service failed
+2. `TechnicalException: BRA-190078` – Error in `bravura.sonata.scheme.setup.EmployersearchDO#retrieve()`
+3. `TechnicalException: BRA-190080` – Error invoking `EmployersearchDO.retrieve(...)` (throws `bravura.commons.LayeredException`)
+4. `TechnicalException: BRA-001` – A technical error occurred (refer to next layer/stacktrace)
+5. `StackOverflowError: BRA-003` – `java.lang.StackOverflowError`
+6. `Exception: BRA-003` – `java.lang.Exception: java.lang.reflect.InvocationTargetException`
+7. `UndeclaredThrowableException: BRA-003` – `java.lang.reflect.UndeclaredThrowableException`
+
+So the root cause underlying the SOAP fault is a `StackOverflowError` occurring inside `EmployersearchDO#retrieve()`, wrapped by reflection-related exceptions (`InvocationTargetException` → `UndeclaredThrowableException`) before surfacing as the technical/service exceptions in the fault response.
+
+Citation: Jira: BASE-460272 — SBS_SMOKE : Throwing exception 'TechnicalException: BRA-190078 - Error in bravura.sonata.scheme.setup.EmployersearchDO#retrieve()' during run 'CreateEmployerAccount' SBS request
+----------------------------------------
+Q: What is the fixVersion of the searchEmployer pagination release-note ticket?
+A: There are two Release Note tickets tied to this feature:
+
+- **BASE-458827** — "…searchEmployer SBS to support pagination and return employer external refs - Porting - Release Note" — fixVersion **Sonata 16.3** (Jira: BASE-458827 — FEAT-9707 - RLSI- 6059 - searchEmployer SBS to support pagination and return employer external refs - Porting - Release Note)
+- **BASE-458857** — "CLONE - …searchEmployer SBS to support pagination and return employer external refs - Story - Release Note" — fixVersion **Sonata 16.1** (Jira: BASE-458857 — CLONE - FEAT-9707 - RLSI- 6059 - searchEmployer SBS to support pagination and return employer external refs - Story Release Note)
+
+So depending on which stream you mean: the original story's release note is **Sonata 16.1**, and its porting release note is **Sonata 16.3**.
+----------------------------------------
+Q: What is the status of the schema-change ticket BASE-458911?
+A: **BASE-458911** — Status: **Closed** (Fix Version: Sonata 16.2)
+
+This SBS Schema Change ticket adds a new `pagingRange` element (type `PagingRangeType`) to the `searchEmployer` operation in Sonata Business Services, enabling pagination for higher employer volumes — supporting consistent result ordering, visibility of total matching records, page-size control, and incremental retrieval via starting index. It's linked to BASE-458834, BASE-458835, and BASE-460238.
+
+Citation: Jira: BASE-458911 — Sonata Business Services (SBS) - Operation searchEmployer added with optional element pagingRange (type PagingRangeType) to support pagination for higher Employer volumes, ensuring search flexibility
+----------------------------------------
+
+Results written to C:\Users\atgupta\sonata-kb\03-poc\agent\eval\results.csv — have your SME fill in score_manual (correct / partial / wrong / hallucinated_citation) per phase-0-poc.md exit criteria.
