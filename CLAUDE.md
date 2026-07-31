@@ -10,6 +10,19 @@ Direct Uploads). Before doing anything, read `sonata-kb/03-poc/PROGRESS-STATUS.m
 the live state: what is verified, what is blocked, pending SME grading, and the exact
 commands to continue.
 
+## End-of-session practice — always do this before wrapping up
+
+Before ending any working session, update `sonata-kb/03-poc/PROGRESS-STATUS.md` so a
+fresh session can resume exactly where this one left off. At minimum, record:
+- what changed / was verified this session,
+- what is blocked or awaiting external input,
+- the single next step, and
+- any updated commit/remote state.
+
+Keep it terse and factual — it is the source of continuity between sessions. If you
+cannot update it for any reason, say so in your final message rather than silently
+skipping it.
+
 ## What this repo is
 A POC-stage knowledge assistant for Bravura's Sonata product. It answers functional
 questions and (from Phase 3 onward) drafts upgrade-impact deliverables, grounded in

@@ -5,6 +5,10 @@
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
+**Where we left off (last session):** both pilot evals are complete and awaiting SME grading;
+repo is pushed to GitHub (`github.com/itsatgupta/sonata-kb`, branch `master`, in sync at
+`6d942bf`). Next action: process the graded CSVs from Pratigya & Sanjay per the action plan below.
+
 ---
 
 ## The two pilot features
@@ -75,15 +79,26 @@ and lower `max_tokens`. Not yet applied — pending decision.
 
 ---
 
-## Blocked / pending at last session
+## Current position & pending
 
-- **Repo push to GitHub** — remote added (`https://github.com/itsatgupta/sonata-kb`, empty repo);
-  `master` has 3 commits (Phase-POC complete, grading briefing, log cleanup). **Push was interrupted by a
-  transient tooling outage** — run `git push -u origin master` (optionally `git branch -m master main` first).
-- **SME grading** — Pratigya (feature 1) and Sanjay Joshi (feature 2) need to fill `score_manual`
+- **Repo**: pushed to GitHub (`https://github.com/itsatgupta/sonata-kb`, branch `master`, in sync at
+  `6d942bf`). Includes PROGRESS-STATUS.md, the CLAUDE.md pointer, and the filled candidate one-pagers.
+- **Awaiting**: SME grading — Pratigya (feature 1) and Sanjay Joshi (feature 2) fill `score_manual`
   (correct / partial / wrong / hallucinated_citation) per `eval/GRADING-BRIEFING.md`.
-- **Findings doc** — `03-poc/poc-findings.md` (phase-0 deliverable) not yet written; see "Known issues" above.
-- **Go/no-go** — after grading: ≥80% correct-with-citation per feature → proceed to Phase 1.
+- **Next**: process graded CSVs per the action plan below → write `03-poc/poc-findings.md` →
+  demo/sign-off → go/no-go.
+- **Open decisions**: apply eval cost levers (truncate chunks, lower `max_tokens`) before any re-run;
+  rotate the Jira PAT in `~/.claude/mcp.json` (security).
+
+## After SME grading — action plan
+
+1. **Consolidate & score** — compute % correct per feature (count `correct` only); list all
+   `wrong` / `partial` / `hallucinated_citation` rows grouped by pattern; flag citation issues.
+2. **Go/no-go** — ≥80% correct-with-citation per feature (feature 1: ≥22/27; feature 2: ≥17/21).
+3. **Write `03-poc/poc-findings.md`** — failure modes from "Known issues" below + the SME grading notes.
+4. **Demo / sign-off** — phase-0 exit requires one SME to watch the assistant answer live.
+5. **If a feature fails** — apply cost levers first, then tune (retrieval/prompts) and re-run that eval.
+6. **Phase 1 planning** — read `02-phases/phase-1-functional-kb.md` with the findings in hand.
 
 ---
 
