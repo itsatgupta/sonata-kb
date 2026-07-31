@@ -6,8 +6,13 @@ what is blocked, and the exact commands to continue. The repo is otherwise expla
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
 **Where we left off (last session):** both pilot evals are complete and awaiting SME grading;
-repo is pushed to GitHub (`github.com/itsatgupta/sonata-kb`, branch `master`, in sync at
-`6d942bf`). Next action: process the graded CSVs from Pratigya & Sanjay per the action plan below.
+repo is pushed to GitHub (`github.com/itsatgupta/sonata-kb`, branch `master`). Next action:
+process the graded CSVs from Pratigya & Sanjay per the action plan below.
+
+**This session also captured:** a proposed **Defect Triage Assistant** workstream
+(`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
+persona (`05-personas-and-usecases/personas-and-usecases.md`) — a later-phase, same-app
+capability gated on client-attribution data and draft-then-approve write governance.
 
 ---
 

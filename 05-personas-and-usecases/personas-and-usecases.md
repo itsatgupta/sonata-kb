@@ -14,6 +14,15 @@
 - "Client Z is upgrading — what's their risk profile?"
 - "Which clients are affected by this recent defect fix?"
 
+## Support / service-desk triage agent (later phase)
+- "Has this defect been reported for another client before?"
+- "Which existing tickets are the closest matches to this customer report?"
+- "Here are the customer's replication steps — draft a base ticket with initial analysis."
+- Triage flow: search historical defects → found? reference the existing ticket(s) /
+  not found? draft a new base ticket (replication steps + analysis) for human approval.
+  Write-back to Jira is always **draft-then-approve**, never auto-created.
+  See `07-future-roadmap/defect-triage-assistant.md`.
+
 ## Account/client-facing consultants (later, client-facing phase)
 - "Explain [feature] to a client in plain language."
 - "What's new for our client in the last 3 releases relevant to what they use?"
