@@ -7,8 +7,10 @@ what is blocked, and the exact commands to continue. The repo is otherwise expla
 
 **Where we left off (this session):** decision — **defer feature-2 (Direct Uploads) grading** and move
 forward with **feature-1 (searchEmployer pagination) as the single go-forward POC enhancement** (SME
-Pratigya: 27/27 Correct (100%), go/no-go PASS, recorded in `03-poc/poc-findings.md`). Repo on `master`;
-eval state committed. Next action: live demo/sign-off, then Phase-1 planning.
+Pratigya: 27/27 Correct (100%), go/no-go PASS, recorded in `03-poc/poc-findings.md`). **Phase-1 plan
+drafted** (`02-phases/phase-1-implementation-plan.md`); **sign-off demo material ready and run live**
+(`03-poc/agent/demo/`, 8 questions, all cited). Repo on `master`. Next action: **schedule the live
+demo with Pratigya**, then begin Phase-1 (first steps at end of the plan).
 
 **This session also captured:** a proposed **Defect Triage Assistant** workstream
 (`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
@@ -94,20 +96,22 @@ and lower `max_tokens`. Not yet applied — pending decision.
   `03-poc/poc-findings.md`. **This is the single go-forward POC enhancement.**
 - **Feature 2 (Sanjay Joshi)**: **deferred** — grading on `eval/results_directupload.csv` parked; wiki
   index, eval set, and briefing kept intact for a future run.
-- **Next**: live demo/sign-off (SME watches the assistant answer live) → Phase-1 planning
-  (`02-phases/phase-1-functional-kb.md`).
+- **Next**: **schedule the live demo/sign-off with Pratigya** — material is ready and run live at
+  `03-poc/agent/demo/` (8 questions, all cited). Then begin Phase-1 per
+  `02-phases/phase-1-implementation-plan.md`.
 - **Open decisions**: apply eval cost levers (truncate chunks, lower `max_tokens`) before any re-run;
   rotate the Jira PAT in `~/.claude/mcp.json` (security).
 
 ## After SME grading — action plan
 
-1. **Consolidate & score** — compute % correct per feature (count `correct` only); list all
-   `wrong` / `partial` / `hallucinated_citation` rows grouped by pattern; flag citation issues.
-2. **Go/no-go** — ≥80% correct-with-citation per feature (feature 1: ≥22/27; feature 2: ≥17/21).
-3. **Write `03-poc/poc-findings.md`** — failure modes from "Known issues" below + the SME grading notes.
-4. **Demo / sign-off** — phase-0 exit requires one SME to watch the assistant answer live.
-5. **If a feature fails** — apply cost levers first, then tune (retrieval/prompts) and re-run that eval.
-6. **Phase 1 planning** — read `02-phases/phase-1-functional-kb.md` with the findings in hand.
+1. **Consolidate & score** — done (feature 1: 27/27 Correct, 100%). Feature 2 deferred.
+2. **Go/no-go** — **PASS** on feature 1 (≥22/27 threshold; 27/27). Phase-0 exit criterion met.
+3. **Write `03-poc/poc-findings.md`** — done (findings + data-quality backlog).
+4. **Demo / sign-off** — material ready & run live (`03-poc/agent/demo/`); **awaiting a scheduled
+   session where an SME watches live**.
+5. **If a feature fails** — n/a (feature 1 passed; no re-run needed).
+6. **Phase 1 planning** — draft done (`02-phases/phase-1-implementation-plan.md`); SME workshop for
+   the taxonomy is the long pole — start that early.
 
 ---
 
