@@ -5,12 +5,12 @@
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
-**Where we left off (this session):** decision — **defer feature-2 (Direct Uploads) grading** and move
-forward with **feature-1 (searchEmployer pagination) as the single go-forward POC enhancement** (SME
-Pratigya: 27/27 Correct (100%), go/no-go PASS, recorded in `03-poc/poc-findings.md`). **Phase-1 plan
-drafted** (`02-phases/phase-1-implementation-plan.md`); **sign-off demo material ready and run live**
-(`03-poc/agent/demo/`, 8 questions, all cited). Repo on `master`. Next action: **schedule the live
-demo with Pratigya**, then begin Phase-1 (first steps at end of the plan).
+**Where we left off (this session):** **Phase-0 exit COMPLETE** — feature-1 (searchEmployer
+pagination) graded 27/27 Correct (100%, SME Pratigya), and the **live demo was delivered — Pratigya is
+happy with it (sign-off obtained)**. Feature-2 (Direct Uploads) grading deferred; feature-1 is the
+single go-forward POC enhancement (recorded in `03-poc/poc-findings.md`). Phase-1 plan drafted
+(`02-phases/phase-1-implementation-plan.md`). Repo on `master`. **Next: begin Phase-1 execution** —
+first steps at the end of the Phase-1 plan.
 
 **This session also captured:** a proposed **Defect Triage Assistant** workstream
 (`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
@@ -92,13 +92,14 @@ and lower `max_tokens`. Not yet applied — pending decision.
 
 - **Repo**: pushed to GitHub (`https://github.com/itsatgupta/sonata-kb`, branch `master`, in sync at
   `6d942bf`). Includes PROGRESS-STATUS.md, the CLAUDE.md pointer, and the filled candidate one-pagers.
-- **Feature 1 (Pratigya)**: graded — **27/27 Correct (100%)**, go/no-go **PASS**; findings recorded in
-  `03-poc/poc-findings.md`. **This is the single go-forward POC enhancement.**
+- **Feature 1 (Pratigya)**: graded — **27/27 Correct (100%)**, go/no-go **PASS**, **live demo delivered
+  & sign-off obtained (Pratigya happy)**. Findings in `03-poc/poc-findings.md`. Single go-forward POC enhancement.
 - **Feature 2 (Sanjay Joshi)**: **deferred** — grading on `eval/results_directupload.csv` parked; wiki
   index, eval set, and briefing kept intact for a future run.
-- **Next**: **schedule the live demo/sign-off with Pratigya** (screen-share live run) — material is
-  ready and run live at `03-poc/agent/demo/`; follow `DEMO-RUNBOOK.md` for the session. Then begin
-  Phase-1 per `02-phases/phase-1-implementation-plan.md`.
+- **Next**: **begin Phase-1 execution** — 1) enumerate Wiki spaces + Jira projects for full ingestion;
+  2) kick off the Feature/Module taxonomy SME workshop (the long pole); 3) add Jira bulk-ingestion +
+  generalize `wiki_ingest.py`; 4) apply POC cost levers; 5) rotate the Jira PAT in `~/.claude/mcp.json`.
+  Full plan: `02-phases/phase-1-implementation-plan.md`.
 - **Open decisions**: apply eval cost levers (truncate chunks, lower `max_tokens`) before any re-run;
   rotate the Jira PAT in `~/.claude/mcp.json` (security).
 
@@ -107,11 +108,10 @@ and lower `max_tokens`. Not yet applied — pending decision.
 1. **Consolidate & score** — done (feature 1: 27/27 Correct, 100%). Feature 2 deferred.
 2. **Go/no-go** — **PASS** on feature 1 (≥22/27 threshold; 27/27). Phase-0 exit criterion met.
 3. **Write `03-poc/poc-findings.md`** — done (findings + data-quality backlog).
-4. **Demo / sign-off** — material ready & run live (`03-poc/agent/demo/`); **awaiting a scheduled
-   session where an SME watches live**.
+4. **Demo / sign-off** — **DONE**: live demo delivered to Pratigya; she is happy (sign-off obtained).
 5. **If a feature fails** — n/a (feature 1 passed; no re-run needed).
-6. **Phase 1 planning** — draft done (`02-phases/phase-1-implementation-plan.md`); SME workshop for
-   the taxonomy is the long pole — start that early.
+6. **Phase 1 planning** — draft done (`02-phases/phase-1-implementation-plan.md`); **execution is the
+   next step** — SME workshop for the taxonomy is the long pole, start it early.
 
 ---
 
