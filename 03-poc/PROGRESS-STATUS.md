@@ -5,9 +5,10 @@
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
-**Where we left off (last session):** both pilot evals are complete and awaiting SME grading;
-repo is pushed to GitHub (`github.com/itsatgupta/sonata-kb`, branch `master`). Next action:
-process the graded CSVs from Pratigya & Sanjay per the action plan below.
+**Where we left off (this session):** feature-1 (searchEmployer pagination) SME grading came back —
+**27/27 Correct (100%), go/no-go PASS** — recorded in `03-poc/poc-findings.md`. Feature 2 still awaits
+grading (Sanjay Joshi). Repo on `master`; eval state committed. Next action: feature-2 grading, live
+demo/sign-off, then Phase-1 planning.
 
 **This session also captured:** a proposed **Defect Triage Assistant** workstream
 (`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
@@ -27,7 +28,7 @@ namespace and eval set, each awaiting SME grading.
   BASE-458911 (schema change), BASE-460256 / BASE-460272 (defects)
 - SME: **Pratigya**
 - Index namespace: `wiki` → `data/wiki.json` (17 chunks)
-- Eval: `eval/test_questions.md` (27 questions) → `eval/results.csv` — **27/27 cited, awaiting grading**
+- Eval: `eval/test_questions.md` (27 questions) → `eval/results.csv` — **27/27 Correct (100%), go/no-go PASS** (SME-graded)
 - Key spec: optional `pagingRange` element; default 20 results/page from index 1; ordered by Employer Number (sloc_code)
 
 ### Feature 2 — Direct Uploads: saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6)
@@ -88,10 +89,12 @@ and lower `max_tokens`. Not yet applied — pending decision.
 
 - **Repo**: pushed to GitHub (`https://github.com/itsatgupta/sonata-kb`, branch `master`, in sync at
   `6d942bf`). Includes PROGRESS-STATUS.md, the CLAUDE.md pointer, and the filled candidate one-pagers.
-- **Awaiting**: SME grading — Pratigya (feature 1) and Sanjay Joshi (feature 2) fill `score_manual`
-  (correct / partial / wrong / hallucinated_citation) per `eval/GRADING-BRIEFING.md`.
-- **Next**: process graded CSVs per the action plan below → write `03-poc/poc-findings.md` →
-  demo/sign-off → go/no-go.
+- **Feature 1 (Pratigya)**: graded — **27/27 Correct (100%)**, go/no-go **PASS**; findings recorded in
+  `03-poc/poc-findings.md`.
+- **Awaiting**: feature-2 SME grading — Sanjay Joshi fills `score_manual` on `eval/results_directupload.csv`
+  per `eval/GRADING-BRIEFING.md`.
+- **Next**: process feature-2 graded CSV (same action plan below) → live demo/sign-off (SME watches the
+  assistant answer live) → Phase-1 planning.
 - **Open decisions**: apply eval cost levers (truncate chunks, lower `max_tokens`) before any re-run;
   rotate the Jira PAT in `~/.claude/mcp.json` (security).
 
