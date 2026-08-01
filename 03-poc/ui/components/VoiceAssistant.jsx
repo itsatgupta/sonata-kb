@@ -9,7 +9,7 @@
  *
  * Usage:
  *   import VoiceAssistant from './components/VoiceAssistant';
- *   <VoiceAssistant backendUrl="https://your-render-app.onrender.com" />
+ *   <VoiceAssistant backendUrl="https://sonata-kb.onrender.com" />
  *
  * Deploy frontend to Vercel (free tier).
  */
