@@ -24,6 +24,8 @@ export default function VoiceAssistant({ backendUrl = '' }) {
   const [citations, setCitations] = useState(null);
   const [error, setError] = useState('');
   const [speaking, setSpeaking] = useState(false);
+  const [textInput, setTextInput] = useState('');
+  const [mode, setMode] = useState('openai'); // 'direct' | 'openai' | 'claude'
 
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
@@ -94,6 +96,33 @@ export default function VoiceAssistant({ backendUrl = '' }) {
     }
   };
 
+  // ── Text chat (typing) ────────────────────────────
+  const sendText = async () => {
+    if (!textInput.trim()) return;
+    setError('');
+    setLoading(true);
+    setQuestion(textInput);
+    setAnswer('');
+    setCitations(null);
+
+    try {
+      const modeParam = mode === 'direct' ? '&direct=true' : '';
+      const url = `${backendUrl}/api/text-ask?q=${encodeURIComponent(textInput)}${modeParam}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Backend error: ${res.status}`);
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      setAnswer(data.answer || '');
+      setCitations(data.citations || []);
+      setTextInput('');
+    } catch (err) {
+      setError(`Failed: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // ── TTS via Web Speech API (100% free) ────────────
   const speakAnswer = (text) => {
     if (!synthRef.current) return;
@@ -130,7 +159,52 @@ export default function VoiceAssistant({ backendUrl = '' }) {
         <p style={styles.subtitle}>Ask a question about Sonata functionality</p>
       </div>
 
-      {/* Controls */}
+      {/* Text Input */}
+      <div style={styles.textInputRow}>
+        <input
+          type="text"
+          value={textInput}
+          onChange={(e) => setTextInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && sendText()}
+          placeholder="Type your question here..."
+          disabled={loading}
+          style={styles.textInput}
+        />
+        <button
+          onClick={sendText}
+          disabled={loading || !textInput.trim()}
+          style={{ ...styles.btn, ...styles.btnPrimary }}
+        >
+          Send
+        </button>
+      </div>
+
+      {/* Mode Toggle */}
+      <div style={styles.modeToggle}>
+        <span style={styles.toggleLabel}>Mode:</span>
+        <button
+          onClick={() => setMode('direct')}
+          style={{ ...styles.modeBtn, ...(mode === 'direct' ? styles.modeBtnActive : {}) }}
+        >
+          Direct ($0)
+        </button>
+        <button
+          onClick={() => setMode('openai')}
+          style={{ ...styles.modeBtn, ...(mode === 'openai' ? styles.modeBtnActive : {}) }}
+        >
+          OpenAI (~$0.001)
+        </button>
+        <button
+          onClick={() => setMode('claude')}
+          style={{ ...styles.modeBtn, ...(mode === 'claude' ? styles.modeBtnActive : {}) }}
+        >
+          Claude (~$0.11)
+        </button>
+      </div>
+
+      <p style={styles.divider}>— or use voice —</p>
+
+      {/* Voice Controls */}
       <div style={styles.controls}>
         <button
           onClick={recording ? stopRecording : startRecording}
@@ -229,4 +303,20 @@ const styles = {
   answerText: { fontSize: 14, color: '#0B0B0B', lineHeight: 1.6 },
   citationList: { margin: 0, paddingLeft: 20 },
   citationItem: { fontSize: 12, color: '#52514E', marginBottom: 4 },
+  modeToggle: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 },
+  modeLabel: { fontSize: 12, fontWeight: 600, color: '#52514E' },
+  modeBtn: {
+    padding: '6px 12px',
+    border: '1px solid #E1E0D9',
+    borderRadius: 4,
+    fontSize: 11,
+    cursor: 'pointer',
+    background: '#fff',
+    color: '#52514E',
+  },
+  modeBtnActive: {
+    background: '#104281',
+    color: '#fff',
+    borderColor: '#104281',
+  },
 };
