@@ -63,8 +63,8 @@ def voice_ask(audio_bytes: bytes, direct: bool = False) -> dict:
 
     if direct:
         # Direct mode: retrieve chunks only, no LLM call
-        from retrieval.hybrid_search import hybrid_search
-        results = hybrid_search(question, namespace="wiki", max_results=5)
+        from tools.wiki_tool import wiki_search
+        results = wiki_search(question, max_results=5)
 
         if not results:
             return {"question": question, "answer": "No results found.", "citations": [], "mode": "direct"}
@@ -72,14 +72,9 @@ def voice_ask(audio_bytes: bytes, direct: bool = False) -> dict:
         chunks_text = []
         citations = []
         for r in results:
-            text = r.get("text", r.get("content", ""))
+            text = r.get("text", "")
             chunks_text.append(text)
-            citations.append({
-                "page": r.get("page_title", ""),
-                "section": r.get("section_heading", ""),
-                "url": r.get("page_url", ""),
-                "updated": r.get("last_modified", ""),
-            })
+            citations.append(r.get("citation", ""))
 
         answer = "\n\n---\n\n".join(chunks_text)
         return {"question": question, "answer": answer, "citations": citations, "mode": "direct"}
@@ -88,24 +83,19 @@ def voice_ask(audio_bytes: bytes, direct: bool = False) -> dict:
         openai_key = os.getenv("OPENAI_API_KEY")
         if openai_key:
             # Use GPT-3.5-turbo (~$0.001/query)
-            from retrieval.hybrid_search import hybrid_search
+            from tools.wiki_tool import wiki_search
             from openai import OpenAI
 
-            results = hybrid_search(question, namespace="wiki", max_results=5)
+            results = wiki_search(question, max_results=5)
             if not results:
                 return {"question": question, "answer": "No results found.", "citations": [], "mode": "openai"}
 
             context_parts = []
             citations = []
             for r in results:
-                text = r.get("text", r.get("content", ""))
+                text = r.get("text", "")
                 context_parts.append(text)
-                citations.append({
-                    "page": r.get("page_title", ""),
-                    "section": r.get("section_heading", ""),
-                    "url": r.get("page_url", ""),
-                    "updated": r.get("last_modified", ""),
-                })
+                citations.append(r.get("citation", ""))
 
             context = "\n\n---\n\n".join(context_parts)
             client = OpenAI(api_key=openai_key)

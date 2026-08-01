@@ -91,24 +91,19 @@ def text_endpoint(q: str, direct: bool = False):
     """
     if direct:
         # Direct mode: retrieve chunks only, no LLM call
-        from retrieval.hybrid_search import hybrid_search
-        results = hybrid_search(q, namespace="wiki", max_results=5)
+        from tools.wiki_tool import wiki_search
+        results = wiki_search(q, max_results=5)
 
         if not results:
-            return {"question": q, "answer": "No results found.", "citations": []}
+            return {"question": q, "answer": "No results found.", "citations": [], "mode": "direct"}
 
         # Format chunks as answer
         chunks_text = []
         citations = []
         for r in results:
-            text = r.get("text", r.get("content", ""))
+            text = r.get("text", "")
             chunks_text.append(text)
-            citations.append({
-                "page": r.get("page_title", ""),
-                "section": r.get("section_heading", ""),
-                "url": r.get("page_url", ""),
-                "updated": r.get("last_modified", ""),
-            })
+            citations.append(r.get("citation", ""))
 
         answer = "\n\n---\n\n".join(chunks_text)
         return {"question": q, "answer": answer, "citations": citations, "mode": "direct"}
@@ -127,11 +122,11 @@ def text_endpoint(q: str, direct: bool = False):
 
 def _ask_openai(q: str, api_key: str):
     """Use OpenAI GPT-3.5-turbo (100x cheaper than Claude)."""
-    from retrieval.hybrid_search import hybrid_search
+    from tools.wiki_tool import wiki_search
     from openai import OpenAI
 
     # Retrieve relevant chunks
-    results = hybrid_search(q, namespace="wiki", max_results=5)
+    results = wiki_search(q, max_results=5)
 
     if not results:
         return {"question": q, "answer": "No results found.", "citations": [], "mode": "openai"}
@@ -140,14 +135,9 @@ def _ask_openai(q: str, api_key: str):
     context_parts = []
     citations = []
     for r in results:
-        text = r.get("text", r.get("content", ""))
+        text = r.get("text", "")
         context_parts.append(text)
-        citations.append({
-            "page": r.get("page_title", ""),
-            "section": r.get("section_heading", ""),
-            "url": r.get("page_url", ""),
-            "updated": r.get("last_modified", ""),
-        })
+        citations.append(r.get("citation", ""))
 
     context = "\n\n---\n\n".join(context_parts)
 
