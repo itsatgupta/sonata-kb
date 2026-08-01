@@ -5,12 +5,15 @@
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
-**Where we left off (this session):** **Phase-0 exit COMPLETE** — feature-1 (searchEmployer
-pagination) graded 27/27 Correct (100%, SME Pratigya), and the **live demo was delivered — Pratigya is
-happy with it (sign-off obtained)**. Feature-2 (Direct Uploads) grading deferred; feature-1 is the
-single go-forward POC enhancement (recorded in `03-poc/poc-findings.md`). Phase-1 plan drafted
-(`02-phases/phase-1-implementation-plan.md`). Repo on `master`. **Next: begin Phase-1 execution** —
-first steps at the end of the Phase-1 plan.
+**Where we left off (this session):** **Phase-0 exit COMPLETE** (27/27 Correct, SME sign-off).
+**DECISION MADE: POC v2 Voice only (focus on completing this first)**:
+- **POC v2 Voice** (2 weeks, $0, Whisper STT + Web Speech TTS, Vercel + Render)
+- **All code scaffolds delivered**: orchestrator_voice.py, main.py, VoiceAssistant.jsx
+- **Deployment guide**: DEPLOYMENT-POC-V2.md (step-by-step Vercel + Render)
+- **Demo script**: DEMO-SCRIPT-POC-V2.md (45-min stakeholder walkthrough)
+- **Troubleshooting**: TROUBLESHOOTING-POC-V2.md
+- **Comprehensive deck**: 16-slide PPT with POC v2 + Phase 1 strategy
+**Next:** User integrates code → deploys → demos POC v2 voice → then decides Phase 1
 
 **This session also captured:** a proposed **Defect Triage Assistant** workstream
 (`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
