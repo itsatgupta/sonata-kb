@@ -1,0 +1,172 @@
+[
+  {
+    "text": "Initial Assessment\n==================\n\n| Helpdesk Ticket | Bravura Solutionsissuekey,summary,issuetype,created,updated,duedate,assignee,reporter,priority,status,resolutionkey,summary,type,created,updated,due,assignee,reporter,priority,status,resolutionfba0a53a-9896-3a95-8f31-798e99299550RLSI-6059 | | | | |\n| --- | --- | --- | --- | --- | --- |\n| **Enhancement Overall Status** | **BlueAPPROVED** | YellowIA DRAFTING **GreenIA REVIEW \u00a0 YellowSD DRAFTING\u00a0 \u00a0GreenSD REVIEW \u00a0 BlueAPPROVED \u00a0 RedIN CHANGE** | | | |\n| **Estimate / Banding** | Band 2 | | Banding | 0 | 1 | 2 | 3 | 4 | 5 | | --- | --- | --- | --- | --- | --- | --- | | **Days** | 0-10 | 11-25 | 26-50 | 51-100 | 101-150 | > 150 | | | | |\n| **Maximum Business Value** | This informal value should reflect any conversations with the client around what an acceptable size would be for the change e.g. what size would the change need to be for the client to want to proceed to the next stage? | | | | |\n| **Author** |  | | | | |\n| **Latest Version** |  | | | | |\n| **Updated** |  | | | | |\n\n\u00a0\n\nApprovers\n\n| Role | Name | Initial Assessment Approved | Solution Approved |\n| --- | --- | --- | --- |\n| BSL Solution Architect |  |  |  |\n| BSL Solution Designer / Technical Architect |  |  |  |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "(intro)",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "What is the Problem / Opportunity\n---------------------------------\n\nThe platform operator is enabling the Workplace Pension product which requires a large number of Employers to be stored in Sonata. Employers, Advisors and the platform operator will maintain the Employer data using external Web Journeys, hence it is required to enhance the Employer search API exposed by Sonata.\n\nDue to a large number of Employers stored in the system, it is required to support pagination of the results returned by the Employer search to meet the performance requirements for Web journeys.",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "What is the Problem / Opportunity",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "Objectives\n----------\n\n* ~~To return the Employer External References in the Employer search API~~\n* To be able to divide into pages the results returned by the Employer search API\n\n---",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Objectives",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "High Level Requirements\n-----------------------\n\n| HLR # | Requirement Title | Description |\n| --- | --- | --- |\n| ~~HLR-1~~ | ~~Returning Employers when searching by external reference (RLSI-6149)~~ | ~~Employer search API must support returning multiple Employers when searching using a non-unique External Reference.~~ |\n| HLR-2 | Pagination in Employer search (RLSI-6059) | Employer search API must support dividing the results into multiple pages for searches where a large number of Employers meet the search criteria. |\n| NFR-3 | Performance | Existing SBS\u00a0Request/Response times\u00a0must not be impacted when requesting for default number of results (i.e. 20) |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "High Level Requirements",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### Out of Scope\n\n| CS # | Out of Scope Item | Description |\n| --- | --- | --- |\n| ~~CS-01~~ | ~~Searching Employer by multiple Employer External References~~ | ~~Current Sonata API allows searching for Employers based on an Employer External Reference, however it only supports providing a single External Reference in a request, hence searching by multiple Employer External References is not available.~~ |\n| ~~CS-01~~ | ~~Returning multiple Employer External References in Search Employer API~~ | ~~Current Sonata API allows returning a single Employer External Reference by Search Employer. The returned reference type is configured in Employer Reference Template field in Scheme details.~~ |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Out of Scope",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### Assumptions\n\n| CA # | Assumption | Description |\n| --- | --- | --- |\n| ~~CA-01~~ | ~~Returning multiple Employer External References in Sonata API~~ | ~~If all Employer External References must be retrieved by Sonata API, getEmployer operation should be used.~~ |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Assumptions",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### Dependencies\n\n| CD # | Dependency | Description |\n| --- | --- | --- |\n| CD-01 |  |  |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Dependencies",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "Solution Overview\n-----------------\n\nsearchEmployer SBS will be enhanced to support\n\n* pagination\n* ~~searching by Employer External Reference~~\n* ~~returning multiple Employers meeting search criteria when search is run by an External Reference Value~~",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Solution Overview",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### High Level Solutions\n\nThere should be one HLS for each HLR.\n\n| HLS # | Solution Title | Description | Delivered By |\n| --- | --- | --- | --- |\n| ~~HLS-01~~ | ~~Returning Employer External References in Employer search (RLSI-6149)~~ | ~~searchEmployer SBS response already contains tags to return an External Reference of Employers, however currently only one External Reference might be returned in the response. The type of returned reference is selected in Employer Reference Template field on the Scheme screen, which only allows to select <None> or one type of reference.~~  ~~Also searching by Employer External Reference is available in searchEmployer SBS, however it also supports passing only one Empolyer External Reference per request.~~  ~~A change must be made to searchEmployer SBS logic to allow returning multiple Employers with the same value of non-unique External Reference.~~ | Link the the UKPS or FEAT ticket |\n| HLS-02 | Supporting pagination in Employer search (RLSI-6059) | The pagination will be introduced to the searchEmployer SBS, so that:   * results are returned in a particular order * the SBS user is informed of the total number of results * a subset of them may be returned at a time * the SBS user can change the number of results per page in the request message * the SBS user can change the index of the first result, so that in conjunction with the number of results per page, the full set of results can be requested / responded in an incremental manner |  |\n\nHLS-01 Returning all Employer External References in Employer search (RLSI-6149)",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "High Level Solutions",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### ~~SEF-01 Employer External Reference in searchEmployer SBS~~\n\n~~searchEmployer SBS already supports searching by a single Employer External Reference and returning a single External Reference. The type of external reference returned in the response is controlled by the value selected in the Employer Reference Template filed under *Common > Schemes > Scheme Structure > Scheme Level Maintenance > Scheme.*~~",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "~~SEF-01 Employer External Reference in searchEmployer SBS~~",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### ~~SFC-02 Enhance searchEmployer SBS to return multiple Employers when search by Employer External Reference.~~\n\n~~Current searchEmployer SBS logic assumes there can be only one Employer with a given External Reference value and returns the following validation error when multiple Employers meet the search criteria with External Reference passed in a request:~~\n\n~~*\"BRA-151053 - Cannot find a unique scheme location for id = null, name = null, number = null, short name = null, reference= \u00a0<value>, refCode= \u00a0<ext ref type>\"*~~\n\n~~However not all Employer External References are configured as unique which allows setting up the same External Reference value against multiple Employers and the SBS should be able to return all Employers which meet the search criteria.~~\n\n~~The validation which verifies that only one Employer meets the search criteria where Employer External Reference is provided must be removed and returning multiple search results should be allowed as it is for other search criteria. Services **other than** searchEmployer which use this validation should not be impacted by this change and still return the error when a unique Employer cannot be identified.~~\n\n~~Based on the current implementation of the searchEmployer service, returning multiple Employers with the same value of External Reference will be possible if the external reference passed in the request is equal to external reference type selected in *Employer Reference Template*. This means the Platform Operator will have to pre-configure the employer external reference type by which the searches are performed.~~\n\n~~Also the External Reference Type returned in the search results will be derived from the *Employer Reference Template*, so the same type of the employer external reference will be accepted in the request and returned in the response, depending on the value selected in the *Employer Reference Template*.~~\n\n~~***Examples***:~~\n\n| ~~Employer Name~~ | ~~Adviser linked with Employer~~ | ~~Employer External Ref~~ | ~~Employer Ext Ref Value~~ |\n| --- | --- | --- | --- |\n| ~~Employer A~~ | ~~Adviser 1~~ | ~~Scheme Ref~~ | ~~1234~~ |\n| ~~EMR Number~~ | ~~ABC~~ |\n| ~~Empl B~~ | ~~Adviser 1~~ | ~~Scheme Ref~~ | ~~1234~~ |\n| ~~EMR Number~~ | ~~DEF~~ |\n| ~~Employer C~~ | ~~Adviser 2~~ | ~~Scheme Ref~~ | ~~1234~~ |\n| ~~Empl D~~ | ~~Adviser 2~~ | ~~Scheme Ref~~ | ~~5678~~ |\n| ~~EMR Number~~ | ~~ABC~~ |\n\n~~***Example 1:***~~\n\n~~Configuration: *Employer Reference Template* = Scheme Ref~~\n\n~~***Search 1***~~\n\n~~Search Criteria:~~\n\n* ~~Adviser = Adviser 1~~\n* ~~Employer External Ref Type = Scheme Ref~~\n* ~~Employer Ext Ref Value = 1234~~\n\n~~Expected Search Results:~~\n\n* ~~Employer A~~\n* ~~Empl B~~\n\n~~***Search 2***~~\n\n~~Search Criteria:~~\n\n* ~~Employer Name = Employer%~~\n* ~~Employer External Ref Type = Scheme Ref~~\n* ~~Employer Ext Ref Value = 1234~~\n\n~~Expected Search Results:~~\n\n* ~~Employer A~~\n* ~~Employer C~~\n\n~~***Search 3***~~\n\n~~Search Criteria:~~\n\n* ~~Employer External Ref Type = Scheme Ref~~\n* ~~Employer Ext Ref Value = 1234~~\n\n~~Expected Search Results:~~\n\n* ~~Employer A~~\n* ~~Empl B~~\n* ~~Employer C~~\n\n~~***Example 2:***~~\n\n~~Configuration: *Employer Reference Template* = EMR Number~~\n\n~~***Search 1***~~\n\n~~Search Criteria:~~\n\n* ~~Employer External Ref Type = EMR Number~~\n* ~~Employer Ext Ref Value = ABC~~\n\n~~Expected Search Results:~~\n\n* ~~Employer A~~\n* ~~Empl D~~\n\n~~***Search 2***~~\n\n~~Search Criteria:~~\n\n* ~~Adviser = Adviser 2~~\n* ~~Employer External Ref Type = EMR Number~~\n* ~~Employer Ext Ref Value = ABC~~\n\n~~Expected Search Results:~~\n\n* ~~Empl D~~",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "~~SFC-02 Enhance searchEmployer SBS to return multiple Employers when search by Employer External Reference.~~",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### ~~CLCFG-03 Option selected in Employer Reference Template~~\n\n~~**TBC - RL to confirm which External Reference to be configured for the searchEmployer service**~~\n\n~~*Common > Schemes > Scheme Structure > Scheme Level Maintenance > Scheme*~~\n\n~~Employer Reference Template = **TBC**~~\n\nHLS-02 Supporting pagination in Employer search (RLSI-6059)",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "~~CLCFG-03 Option selected in Employer Reference Template~~",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### SFC-04 pagingRange added to searchEmployer SBS\n\n| Domain | Service | Parent Complex Group Type/Field/  Field Type | Optional/  Mandatory | Occurrence | Screenshot | Annotation | Functional Changes and XSD Element Description |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Scheme | **searchEmployer** | SearchEmployerRequestType/  pagingRange/  dgt:PagingRangeType | Optional | Min: 0  Max: 1 |  | Request paging by passing first row and page size. | The Paging Range element will allow to return a subset of results which meet the specified search criteria.  The element allows to specify how many results should be returned per page and what is the index of the first row returned. It also returns the total number of results meeting the search criteria.  The element will be optional in the request and if not provided, the default value will be 20 results per page beginning with the result with index 1.  The results will be ordered by the Employer Number (sloc\\_code). |\n| Scheme | **searchEmployer** | SearchEmployerResponseType/  pagingRange/  dgt:PagingRangeType | Optional | Min: 0  Max: 1 |  | Request paging by passing first row and page size. |\n\n---\n\nSolution Designs\n================\n\n464551956464551956Click to create a Solution document\n\nTitlelabel = \"solutiondesign\" and ancestor = currentContent()\n\nAcceptance Criteria\n===================\n\nTo be completed when no further design work will be undertaken. Delete if a solution and/or feature design is required\n\n| Step | Actor | SBS operation | Action | Results | Satisfies | Automation Required (Y/N) |\n| --- | --- | --- | --- | --- | --- | --- |\n|  |  |  | *All below test cases of searchEmployer SBS should include searching by employer, client and/or advisor, with and without filtering by employer status* |  |  |  |\n| ~~AC-1~~ | ~~SBS User~~ | ~~searchEmployer~~ | ~~Run SBS with single employer external reference in the request (search criteria) where multiple employers can be identified by that external ref.~~  ~~External reference type in the request equals to the type selected in *Employer Reference Template*~~ | ~~All employers identified by the external ref returned in the search results.~~  ~~The employer external reference returned in the search results is of the type selected in *Employer Reference Template*~~ | ~~HLS-01~~ | ~~Y~~ |\n| ~~AC-2~~ | ~~SBS User~~ | ~~searchEmployer~~ | ~~Run SBS with single employer external reference in the request (search criteria) where at least one employer can be identified by that external ref.~~  ~~External reference type in the request NOT equal to the type selected in *Employer Reference Template*~~ | ~~Error returned that no records were found with given criteria~~ | ~~HLS-01~~ | ~~Y~~ |\n| ~~AC-3~~ | ~~SBS User~~ | ~~searchEmployer~~ | ~~Run SBS with single employer external reference in the request where NO employers can be identified by that external ref.~~  ~~External reference type in the request equals to the type selected in *Employer Reference Template*~~ | ~~Error returned that no records were found with given criteria~~ | ~~HLS-01~~ | ~~N~~ |\n| AC-4 | SBS User | searchEmployer | Run SBS where less or equal 20 Employers meet the search criteria without the pagingRange tag in the request. | * All Employers meeting criteria are fetched in the response * The Employers are sorted by the Employer Number * The response contains the total number of Employers meeting search criteria | HLS-02  NFR-3 | N |\n| AC-5 | SBS User | searchEmployer | Run SBS where more than 20 Employers meet the search criteria without the pagingRange tag in the request. | * First 20 Employers will be fetched in the response with the default pagination setting of 20 accounts * The Employers are sorted by the Employer Number * The response contains the total number of Employers meeting search criteria | HLS-02  NFR-3 | N |\n| AC-6 | SBS User | searchEmployer | Run SBS where 80 Employers meet the search criteria with the pagingRange tag in the request. \u2022 \u00a0 \u00a0pagingRange/firstResult = 1 \u2022 \u00a0 \u00a0pagingRange/resultsPerPage = 50 | * The first 50 Employers are returned. * The Employers are sorted by the Employer Number * The following are presented in the response message: \u2022 \u00a0 \u00a0pagingRange/firstResult = 1 \u2022 \u00a0 \u00a0pagingRange/resultsPerPage = 50 \u2022 \u00a0 \u00a0pagingRange/totalResults = 80 | HLS-02 | N |\n| AC-7 | SBS User | searchEmployer | Run SBS where 80 Employers meet the search criteria with the pagingRange tag in the request. \u2022 \u00a0 \u00a0pagingRange/firstResult = 51 \u2022 \u00a0 \u00a0pagingRange/resultsPerPage = 50 | * 30 Employers are returned starting with 51st result. * The Employers are sorted by the Employer Number * The following are presented in the response message: \u2022 \u00a0 \u00a0pagingRange/firstResult = 51 \u2022 \u00a0 \u00a0pagingRange/resultsPerPage = 50 \u2022 \u00a0 \u00a0pagingRange/totalResults = 80 | HLS-02 | N |\n\nRegression Criteria\n===================\n\n| Step | Actor | SBS operation | Action | Results |\n| --- | --- | --- | --- | --- |\n| ~~RC-1~~ | ~~SBS User~~ | ~~createReceipt createScheme saveScheme saveContributionSchedule saveMbrRegistrationSchedule saveEmployerBoostRate saveEmployerLatePaymentLog createEmployerAccount searchSchemeCategory getMemberList getEmployer searchEmployerLatePaymentLog getContributionSchedules getEmployerExpenseDetails saveEmployer~~ | ~~Run SBS with single employer external reference in the request where single employer can be identified by that external ref~~ | ~~Requested action performed for an identified employer~~ |\n| ~~RC-2~~ | ~~SBS User~~ | ~~createReceipt createScheme saveScheme saveContributionSchedule saveMbrRegistrationSchedule saveEmployerBoostRate saveEmployerLatePaymentLog createEmployerAccount searchSchemeCategory getMemberList getEmployer searchEmployerLatePaymentLog getContributionSchedules getEmployerExpenseDetails saveEmployer~~ | ~~Run SBS with single employer external reference in the request where multiple employers can be identified by that external ref~~ | ~~Error returned that unique scheme location was not found~~ |\n| ~~RC-3~~ | ~~SBS User~~ | ~~createReceipt createScheme saveScheme saveContributionSchedule saveMbrRegistrationSchedule saveEmployerBoostRate saveEmployerLatePaymentLog createEmployerAccount searchSchemeCategory getMemberList getEmployer searchEmployerLatePaymentLog getContributionSchedules getEmployerExpenseDetails saveEmployer~~ | ~~Run SBS with single employer external reference in the request where NO employers can be identified by that external ref~~ | ~~Error returned that specified scheme location was not found~~ |\n| ~~RC-4~~ | ~~SBS User~~ | ~~getReceipt  getSchemeDetails  searchEmployer  getContributionSchedules  saveContributionSchedule  saveMbrRegistrationSchedule  getProductBoostRate  getEmployerBoostRate  saveEmployerBoostRate  searchEmployerLatePaymentLog  saveEmployerLatePaymentLog  getEmployerExpenseDetails  saveEmployer~~ | ~~*Pre-requisite: Employer Reference Template set to <None>*~~  ~~Run SBS where returned Employer have multiple External References captured against the Employer record.~~ | ~~employerExternalRef element not populated in the response~~ |\n| ~~RC-5~~ | ~~SBS User~~ | ~~getReceipt  getSchemeDetails  searchEmployer  getContributionSchedules  saveContributionSchedule  saveMbrRegistrationSchedule  getProductBoostRate  getEmployerBoostRate  saveEmployerBoostRate  searchEmployerLatePaymentLog  saveEmployerLatePaymentLog  getEmployerExpenseDetails  saveEmployer~~ | ~~*Pre-requisite: Employer Reference Template set to one of the External Reference Types*~~  ~~Run SBS where returned Employer have multiple External References captured against the Employer record including the one selected in *Employer Reference Template.*~~ | ~~Only one employerExternalRef element populated in the response with the external reference of type selected in\u00a0*Employer Reference Template*~~ |\n| ~~RC-6~~ | ~~SBS User~~ | ~~createReceipt createScheme saveScheme saveContributionSchedule saveMbrRegistrationSchedule saveEmployerBoostRate saveEmployerLatePaymentLog createEmployerAccount searchSchemeCategory getMemberList getEmployer searchEmployer searchEmployerLatePaymentLog getContributionSchedules getEmployerExpenseDetails saveEmployer~~ | ~~Run SBS WITHOUT any Employer External Reference in the request, but with other Employer fields, e.g. Employer Name / Employer Number / ID, where single employer can be identified by input data~~ | ~~Requested action performed for an identified employer~~ |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "SFC-04 pagingRange added to searchEmployer SBS",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "Sonata Impact Assessment\n------------------------\n\n| System Components | HLS-01 | HLS-02 |\n| --- | --- | --- |\n| Sonata RDA |  |  |\n| Sonata Web |  |  |\n| Infrastructure / Hosting |  |  |\n| Security / User Access / Data Access |  |  |\n| Correspondence |  |  |\n| Management Information |  |  |\n| Sonata Interfaces |  |  |\n| NEW Sonata Business Services |  |  |\n| AMENDED Sonata Business Services |  |  |\n| Configuration |  |  |\n| Automated Regression Tests |  |  |\n| ODS |  |  |\n| Workflow |  |  |\n| Migration |  |  |\n| Non Functional Requirements |  |  |\n| Eventing Framework |  |  |\n| Other (Please specify) |  |  |",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Sonata Impact Assessment",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "Solution Scope Management\n-------------------------\n\nTo be completed when ANY approved pages associated with this enhancement require changes\n\n**862257153862257153xxxx - Change LogClick to create Change Log**\n\nfalselabel = \"changelog\" and ancestor = currentContent()\n\n---",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Solution Scope Management",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "*Design Principles to Consider Checklist*\n-----------------------------------------\n\n*Please check to acknowledge that these principles have been considered in the solution and add a comment where relevant.*\n\n| *Area* | *Prinicple* | *Checked?* | *Comment* |\n| --- | --- | --- | --- |\n| *Adopt / Adapt* | *Wherever possible re-use existing functionality, use out of the box functionality in a standard way rather than adapting or building new functionality.* |  |  |\n| *Data Source* | *Data source is rightly identified and mastered in the right place.*  *Data is mapped to source of truth (where applicable).*  *Data Reconciliation requirement has been considered between sonata and master (if not sonata).* |  |  |\n| *Loosely Coupled* | *Inter-dependencies are kept to a minimum.*  *Integrations are realised via well-defined interface contracts.*  *Consider implementation and testing strategy with other systems.* |  |  |\n| *Automation* | *Testing is fully automated.*  *Consider efficiencies of automation testing of the function vs a more holistic approach.* |  |  |\n| *Best tool for job* | *Consider use of Workflow / SBS / RDA / Microservices / Other*  *Build only the right things on the platform as opposed to whatever the user wants* |  |  |\n| *Portability* | *Ability to deploy the functionality in different versions*  *Backward compatibility* |  |  |\n| *Incremental change* | *Deliver little and often in preference to large, infrequent releases.*  *Aspire to move to agile methods.* |  |  |\n| *Non-Functionals* | *Ensure non-functional requirements captured and catered for in the design.* |  |  |\n| *Supportability* | *Restartable / Re-Runnable / Reversable.*  *Observability including ease of tracking and progress monitoring.* |  |  |\n| *Record Management* | *Understand Data growth expectations.*  *Archiving.*  *Audit Strategy.*  *Data Lifecycle defined - Archival and / or purging policy identified / defined.* |  |  |\n| *Access Controls* | *Access Management has been considered in design (User Group / Read Only / Read Write / Navigator / Graphical Menus)* |  |  |\n| *Resilience* | *Ensure that individual components recoverable from failure.* |  |  |\n| *User Friendliness* | *Error codes / Reasons are self-explanatory and contain sufficient information to diagnose and rectify issues.*  *Documentation is updated.*  *Online Help is updated.* |  |  |\n| *Cloud First / Data\u00a0 First / API First* | *Where applicable apply the cloud, data and API first principles to the design.* |  |  |\n\n---",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "*Design Principles to Consider Checklist*",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  },
+  {
+    "text": "### Implementation Guidance\n\nClick here to expand Implementation Guidance.\n\n*Bravura Sonata IA Template v1.5*",
+    "metadata": {
+      "page_title": "RLSI-6059 searchEmployer SBS to support pagination",
+      "section_heading": "Implementation Guidance",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliRln/pages/973706490/RLSI-6059+searchEmployer+SBS+to+support+pagination",
+      "last_modified": "2026-04-08T18:13:36.000+10:00",
+      "space": "CliRln"
+    }
+  }
+]

@@ -12,6 +12,8 @@ __pycache__/
 
 # --- POC local data: vector index + ingestion output ---
 data/
+!03-poc/agent/data/
+!03-poc/agent/data/*.json
 
 # --- Local-only Claude Code settings ---
 .claude/settings.local.json

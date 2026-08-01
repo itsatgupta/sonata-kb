@@ -1,0 +1,152 @@
+[
+  {
+    "text": "Initial Assessment\n==================\n\n| Helpdesk Ticket | Bravura Solutionsfba0a53a-9896-3a95-8f31-798e99299550LIBSON-3635 | | | | |\n| --- | --- | --- | --- | --- | --- |\n| **Status** | YellowINITIAL ASSESSMENT IN DRAFTING | **Status Transitions**  YellowINITIAL ASSESSMENT IN DRAFTING > GreenINITIAL ASSESSMENT IN REVIEW  YellowSOLUTION IN DRAFTING > GreenSOLUTION IN REVIEW > BlueAPPROVED | | | |\n| **Estimate / Banding** |  | | Banding | 0 | 1 | 2 | 3 | 4 | 5 | | --- | --- | --- | --- | --- | --- | --- | | **Days** | 0-10 | 11-25 | 26-50 | 51-100 | 101-150 | > 150 | | | | |\n| **Maximum Business Value** | This informal value should reflect any conversations with the client around what an acceptable size would be for the change e.g. what size would the change need to be for the client to want to proceed to the next stage? | | | | |\n| **Author** |  | | | | |\n| **Latest Version** |  | | | | |\n| **Updated** |  | | | | |\n\n\u00a0\n\nApprovers\n\n| Role | Name | Initial Assessment Approved | Solution Approved |\n| --- | --- | --- | --- |\n| BSL Solution Architect |  |  |  |\n| BSL Solution Designer / Technical Architect |  |  |  |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "(intro)",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "What is the Problem / Opportunity\n---------------------------------\n\nCurrently the\u00a0client\u00a0uses saveExternalCorespondence SBS for the Advisers to save client documents onto the client correspondence tab on Sonata.\u00a0\n\nThe problem is that the\u00a0saveExternalCorespondence SBS has a hardcoded file size limit of 2MB and the Adviser is not able to upload documents that are larger than this such as bank statements.\n\nThe opportunity is to enhance the advisor and client experience on the\u00a0client\u2019s\u00a0web platform by updating this file size limit on the saveExternalCorespondence SBS.",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "What is the Problem / Opportunity",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "Objectives\n----------\n\nThe objective is to enhance saveExternalCorespondence SBS request to allow for documents that are larger than 2MB.\n\n---",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Objectives",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "High Level Requirements\n-----------------------\n\n| HLR # | Requirement Title | Description |\n| --- | --- | --- |\n| HLR-01 | As an Adviser I would like the ability to load client\u00a0 documents that are up to 10MB using the saveExternalCorespondence SBS request | The current file size limit when loading documents through the saveExternalCorespondence SBS request is 2MB and this should be increased to 10MB |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "High Level Requirements",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "### Out of Scope\n\n| CS # | Out of Scope Item | Description |\n| --- | --- | --- |\n| CS-01 | RDA upload functionality | No changes will be required to the RDA as this currently allows for a 10MB limit |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Out of Scope",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "### Assumptions\n\n| CA # | Assumption | Description |\n| --- | --- | --- |\n| CA-01 | Existing functionality | Existing functionality as per the saveExternalCorespondence SBS request will remain unchanged |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Assumptions",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "### Dependencies/Known Risk\n\n| CD # | Dependency | Description |\n| --- | --- | --- |\n| CD-01 | Possible performance impact | The increased file size could lead to a possible increase in load time |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Dependencies/Known Risk",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "Solution Overview\n-----------------\n\nEnhance the existing saveExternalCorespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Solution Overview",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "### High Level Solutions\n\n| HLS # | Solution Title | Description | Delivered By |\n| --- | --- | --- | --- |\n| HLS-01 | Enhance the existing saveExternalCorespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB | Development will be required to enhance the existing saveExternalCorespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB from the current hardcoded limit of 2MB  The existing message that is displayed when the limit is reached must be maintained | Link the the UKPS or FEAT ticket |\n\nHLS-01: Solution Title",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "High Level Solutions",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "### *If required, use the expand macro to add a more detailed description of the solution; this is typically only needed if a solution design won't be completed post initial assessment.*\n\n---\n\nSolution Designs\n================\n\n464551956464551956Click to create a Solution document\n\nTitlelabel = \"solutiondesign\" and ancestor = currentContent()\n\nAcceptance Criteria\n===================\n\nTo be completed when no further design work will be undertaken. Delete if a solution and/or feature design is required\n\n| Step | Actor | Action | Results | Satisfies | Automation Required (Y/N) |\n| --- | --- | --- | --- | --- | --- |\n| AC-01 | Admin | Load a file that is less than 10mb through the saveExternalCorespondence SBS request | File loaded successfully on the clients correspondence tab on the RDA | HLS-01 | N |\n| AC-02 | Admin | Load a file that is 10mb through the\u00a0saveExternalCorespondence SBS request | File loaded successfully on the clients correspondence tab on the RDA | HLS-01 | N |\n| AC-03 | Admin | Load a file that is more than 10mb through the saveExternalCorespondence SBS request | File fails to load due to size limitations with the below message displayed | HLS-01 | N |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "*If required, use the expand macro to add a more detailed description of the solution; this is typically only needed if a solution design won't be completed post initial assessment.*",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "Sonata Impact Assessment\n------------------------\n\n| System Components | HLS-01 |\n| --- | --- |\n| Sonata RDA |  |\n| Sonata Web |  |\n| Infrastructure / Hosting |  |\n| Security / User Access / Data Access |  |\n| Correspondence |  |\n| Management Information |  |\n| Sonata Interfaces |  |\n| NEW Sonata Business Services |  |\n| AMENDED Sonata Business Services |  |\n| Configuration |  |\n| Automated Regression Tests |  |\n| ODS |  |\n| Workflow |  |\n| Migration |  |\n| Non Functional Requirements |  |\n| Eventing Framework |  |\n| Other (Please specify) |  |\n\n---",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Sonata Impact Assessment",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "*Design Principles to Consider Checklist*\n-----------------------------------------\n\n*Please check to acknowledge that these principles have been considered in the solution and add a comment where relevant.*\n\n| *Area* | *Prinicple* | *Checked?* | *Comment* |\n| --- | --- | --- | --- |\n| *Adopt / Adapt* | *Wherever possible re-use existing functionality, use out of the box functionality in a standard way rather than adapting or building new functionality.* | / |  |\n| *Data Source* | *Data source is rightly identified and mastered in the right place.*  *Data is mapped to source of truth (where applicable).*  *Data Reconciliation requirement has been considered between sonata and master (if not sonata).* | */* |  |\n| *Loosely Coupled* | *Inter-dependencies are kept to a minimum.*  *Integrations are realised via well-defined interface contracts.*  *Consider implementation and testing strategy with other systems.* | */* |  |\n| *Automation* | *Testing is fully automated.*  *Consider efficiencies of automation testing of the function vs a more holistic approach.* | */* |  |\n| *Best tool for job* | *Consider use of Workflow / SBS / RDA / Microservices / Other*  *Build only the right things on the platform as opposed to whatever the user wants* | */* |  |\n| *Portability* | *Ability to deploy the functionality in different versions*  *Backward compatibility* | */* |  |\n| *Incremental change* | *Deliver little and often in preference to large, infrequent releases.*  *Aspire to move to agile methods.* | */* |  |\n| *Non-Functionals* | *Ensure non-functional requirements captured and catered for in the design.* | */* |  |\n| *Supportability* | *Restartable / Re-Runnable / Reversable.*  *Observability including ease of tracking and progress monitoring.* | */* |  |\n| *Record Management* | *Understand Data growth expectations.*  *Archiving.*  *Audit Strategy.*  *Data Lifecycle defined - Archival and / or purging policy identified / defined.* | */* |  |\n| *Access Controls* | *Access Management has been considered in design (User Group / Read Only / Read Write / Navigator / Graphical Menus)* | */* |  |\n| *Resilience* | *Ensure that individual components recoverable from failure.* | */* |  |\n| *User Friendliness* | *Error codes / Reasons are self-explanatory and contain sufficient information to diagnose and rectify issues.*  *Documentation is updated.*  *Online Help is updated.* | */* |  |\n| *Cloud First / Data\u00a0 First / API First* | *Where applicable apply the cloud, data and API first principles to the design.* | */* |  |\n\n---",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "*Design Principles to Consider Checklist*",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "Solution Scope Management\n-------------------------",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Solution Scope Management",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "### Change Log\n\nTo be completed when HLRs are added or removed through the design process\n\n| Ref | Change Description | Impact |\n| --- | --- | --- |\n| HLR-01 |  |  |\n| HLS-01 |  |  |\n| CS-01 |  |  |",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Change Log",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  },
+  {
+    "text": "Implementation Guidance\n-----------------------\n\nClick here to expand Implementation Guidance.\n\n*Bravura Sonata IA Template v1.5*",
+    "metadata": {
+      "page_title": "LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",
+      "section_heading": "Implementation Guidance",
+      "page_url": "https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs",
+      "last_modified": "2026-07-02T01:18:27.000+10:00",
+      "space": "CliStl"
+    }
+  }
+]
