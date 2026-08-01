@@ -67,10 +67,11 @@ feature-1 eval.
 
 ---
 
-## Feature 2 — Direct Uploads saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6)
+## Feature 2 — Direct Uploads saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6) — **DEFERRED**
 
 - Eval: `agent/eval/test_questions_directupload.md` (21 questions) → `agent/eval/results_directupload.csv`
   (20/21 cited).
-- **Status: awaiting SME grading (Sanjay Joshi).** No findings recorded yet; briefing
-  (`agent/eval/GRADING-BRIEFING.md`) flags 3 rows for specific judgment and the general LIBSON-3635
-  helpdesk-ticket drift.
+- **Status: deferred (2026-08-01)** — feature-1 (searchEmployer pagination) is the single go-forward POC
+  enhancement; Sanjay Joshi's grading is parked. Wiki index, eval set, and briefing
+  (`agent/eval/GRADING-BRIEFING.md`, which flags 3 rows for specific judgment and the general LIBSON-3635
+  helpdesk-ticket drift) are kept intact for a future run.

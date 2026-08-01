@@ -5,10 +5,10 @@
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
-**Where we left off (this session):** feature-1 (searchEmployer pagination) SME grading came back —
-**27/27 Correct (100%), go/no-go PASS** — recorded in `03-poc/poc-findings.md`. Feature 2 still awaits
-grading (Sanjay Joshi). Repo on `master`; eval state committed. Next action: feature-2 grading, live
-demo/sign-off, then Phase-1 planning.
+**Where we left off (this session):** decision — **defer feature-2 (Direct Uploads) grading** and move
+forward with **feature-1 (searchEmployer pagination) as the single go-forward POC enhancement** (SME
+Pratigya: 27/27 Correct (100%), go/no-go PASS, recorded in `03-poc/poc-findings.md`). Repo on `master`;
+eval state committed. Next action: live demo/sign-off, then Phase-1 planning.
 
 **This session also captured:** a proposed **Defect Triage Assistant** workstream
 (`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
@@ -19,8 +19,9 @@ capability gated on client-attribution data and draft-then-approve write governa
 
 ## The two pilot features
 
-The POC is running **two** small pilot features in parallel, each with its own wiki index
-namespace and eval set, each awaiting SME grading.
+The POC started with **two** small pilot features in parallel. **Feature 1 is the single go-forward
+enhancement** (graded & passed); **feature 2 is deferred** — its wiki index, eval set, and briefing
+remain intact for a future run.
 
 ### Feature 1 — searchEmployer SBS pagination (RLSI-6059, Sonata 16.2)
 - Wiki page: `RLSI-6059 searchEmployer SBS to support pagination` (space CliRln, id **973706490**)
@@ -31,7 +32,7 @@ namespace and eval set, each awaiting SME grading.
 - Eval: `eval/test_questions.md` (27 questions) → `eval/results.csv` — **27/27 Correct (100%), go/no-go PASS** (SME-graded)
 - Key spec: optional `pagingRange` element; default 20 results/page from index 1; ordered by Employer Number (sloc_code)
 
-### Feature 2 — Direct Uploads: saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6)
+### Feature 2 — Direct Uploads: saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6) — **DEFERRED**
 - Wiki page: `LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs` (space CliStl, id **1001573493**)
 - Jira: FEAT-10148 (work package), FEAT-10149 (IA), FEAT-10150 (design), BASE-464868 (story),
   BASE-464872 (release note, 16.6)
@@ -90,11 +91,11 @@ and lower `max_tokens`. Not yet applied — pending decision.
 - **Repo**: pushed to GitHub (`https://github.com/itsatgupta/sonata-kb`, branch `master`, in sync at
   `6d942bf`). Includes PROGRESS-STATUS.md, the CLAUDE.md pointer, and the filled candidate one-pagers.
 - **Feature 1 (Pratigya)**: graded — **27/27 Correct (100%)**, go/no-go **PASS**; findings recorded in
-  `03-poc/poc-findings.md`.
-- **Awaiting**: feature-2 SME grading — Sanjay Joshi fills `score_manual` on `eval/results_directupload.csv`
-  per `eval/GRADING-BRIEFING.md`.
-- **Next**: process feature-2 graded CSV (same action plan below) → live demo/sign-off (SME watches the
-  assistant answer live) → Phase-1 planning.
+  `03-poc/poc-findings.md`. **This is the single go-forward POC enhancement.**
+- **Feature 2 (Sanjay Joshi)**: **deferred** — grading on `eval/results_directupload.csv` parked; wiki
+  index, eval set, and briefing kept intact for a future run.
+- **Next**: live demo/sign-off (SME watches the assistant answer live) → Phase-1 planning
+  (`02-phases/phase-1-functional-kb.md`).
 - **Open decisions**: apply eval cost levers (truncate chunks, lower `max_tokens`) before any re-run;
   rotate the Jira PAT in `~/.claude/mcp.json` (security).
 
