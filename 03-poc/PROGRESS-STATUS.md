@@ -96,9 +96,9 @@ and lower `max_tokens`. Not yet applied — pending decision.
   `03-poc/poc-findings.md`. **This is the single go-forward POC enhancement.**
 - **Feature 2 (Sanjay Joshi)**: **deferred** — grading on `eval/results_directupload.csv` parked; wiki
   index, eval set, and briefing kept intact for a future run.
-- **Next**: **schedule the live demo/sign-off with Pratigya** — material is ready and run live at
-  `03-poc/agent/demo/` (8 questions, all cited). Then begin Phase-1 per
-  `02-phases/phase-1-implementation-plan.md`.
+- **Next**: **schedule the live demo/sign-off with Pratigya** (screen-share live run) — material is
+  ready and run live at `03-poc/agent/demo/`; follow `DEMO-RUNBOOK.md` for the session. Then begin
+  Phase-1 per `02-phases/phase-1-implementation-plan.md`.
 - **Open decisions**: apply eval cost levers (truncate chunks, lower `max_tokens`) before any re-run;
   rotate the Jira PAT in `~/.claude/mcp.json` (security).
 
