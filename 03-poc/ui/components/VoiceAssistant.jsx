@@ -195,21 +195,31 @@ export default function VoiceAssistant({ backendUrl = '' }) {
       <div style={s.main}>
         {/* Input Card */}
         <div style={s.card}>
+          {/* Chat Bot Section */}
+          <div style={s.sectionHeader}>
+            <span style={s.sectionIcon}>💬</span>
+            <span style={s.sectionTitle}>Chat Bot</span>
+            <span style={s.sectionSubtitle}>Type your question</span>
+          </div>
+
           {/* Mode Selector */}
           <div style={s.modeBar}>
             <span style={s.modeLabel}>Mode:</span>
-            {['direct', 'openai', 'claude'].map((m) => (
+            {[
+              { key: 'direct', label: 'Direct', tip: 'Raw retrieval — returns exact wiki chunks. Free, instant, no AI rewriting. Best for quick lookups.' },
+              { key: 'openai', label: 'OpenAI', tip: 'GPT-3.5-turbo synthesizes a natural answer from retrieved chunks. Fast, ~$0.001/query, good quality.' },
+              { key: 'claude', label: 'Claude', tip: 'Claude AI generates the best quality answer. More thorough but costs ~$0.11/query.' },
+            ].map((m) => (
               <button
-                key={m}
-                onClick={() => { setMode(m); setModeInfo(''); }}
+                key={m.key}
+                onClick={() => { setMode(m.key); setModeInfo(''); }}
+                title={m.tip}
                 style={{
                   ...s.modeBtn,
-                  ...(mode === m ? s.modeBtnActive : {}),
+                  ...(mode === m.key ? s.modeBtnActive : {}),
                 }}
               >
-                {m === 'direct' && 'Direct'}
-                {m === 'openai' && 'OpenAI'}
-                {m === 'claude' && 'Claude'}
+                {m.label}
               </button>
             ))}
             <span style={s.modeHint}>{modeDescriptions[mode]}</span>
@@ -236,26 +246,35 @@ export default function VoiceAssistant({ backendUrl = '' }) {
             </button>
           </div>
 
+          {/* Voice Bot Section */}
+          <div style={{ ...s.sectionHeader, marginTop: 18 }}>
+            <span style={s.sectionIcon}>🎤</span>
+            <span style={s.sectionTitle}>Voice Bot</span>
+            <span style={s.sectionSubtitle}>Speak your question</span>
+          </div>
+
           {/* Voice Button */}
           <div style={s.voiceRow}>
             <button
               onClick={recording ? stopRecording : startRecording}
               disabled={loading}
+              title="Click to start recording. Speak your question clearly. Click Stop when done. Audio is transcribed via Whisper, answered, then spoken back."
               style={{
                 ...s.btn,
                 ...(recording ? s.btnMicActive : s.btnMic),
               }}
             >
               <span style={s.micDot(recording)} />
-              {recording ? 'Stop' : 'Voice'}
+              {recording ? 'Stop Recording' : 'Start Voice'}
             </button>
 
             {answer && (
               <button
                 onClick={speaking ? stopSpeaking : () => speakAnswer(answer)}
+                title="Play the last answer again using browser text-to-speech (free, built-in)."
                 style={{ ...s.btn, ...(speaking ? s.btnSpeakerActive : s.btnSpeaker) }}
               >
-                {speaking ? 'Stop Audio' : 'Play Answer'}
+                {speaking ? 'Stop Audio' : '🔊 Play Answer'}
               </button>
             )}
           </div>
@@ -542,4 +561,17 @@ const s = {
   },
   historyQ: { fontSize: 13, color: '#202124', fontWeight: 500, display: 'block' },
   historyMeta: { fontSize: 11, color: '#9aa0a6', marginTop: 2, display: 'block' },
+
+  // Section headers
+  sectionHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+    paddingBottom: 8,
+    borderBottom: '1px solid #f1f3f4',
+  },
+  sectionIcon: { fontSize: 16 },
+  sectionTitle: { fontSize: 14, fontWeight: 700, color: '#202124' },
+  sectionSubtitle: { fontSize: 11, color: '#9aa0a6' },
 };
