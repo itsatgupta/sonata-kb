@@ -5,10 +5,20 @@ repo. Read this in full before writing or modifying ingestion, retrieval, or age
 
 ## Current work status — read this first in a new session
 
-The POC is mid-flight with **two pilot features** (searchEmployer SBS pagination and
-Direct Uploads). Before doing anything, read `sonata-kb/03-poc/PROGRESS-STATUS.md` for
-the live state: what is verified, what is blocked, pending SME grading, and the exact
-commands to continue.
+**Phase 0 COMPLETE** (27/27 Correct, SME sign-off). **POC v2 Voice DEPLOYED & WORKING**
+(https://sonata-kb.vercel.app — voice + text chat). **Building Upgrade Analysis + Defect Triage POCs.**
+Before doing anything, read `sonata-kb/03-poc/PROGRESS-STATUS.md` for the live state.
+
+Current POCs:
+- **POC v2 Voice**: ✅ DONE — Voice + text chat deployed
+- **Upgrade Analysis**: 🔄 IN PROGRESS — `upgrade_analyzer.py` created, needs wiki ingestion
+- **Defect Triage**: ⏳ PENDING — starts after Upgrade Analysis
+
+Key data sources:
+- CART tests: Jira filter `103721`
+- Defect tracker: Jira filter `90250`
+- Royal London defects: Project `RLSI`
+- Wiki release notes: 16.4 (page 1001572222), 16.5 (page 1007867808) — NOT YET INDEXED
 
 ## End-of-session practice — always do this before wrapping up
 

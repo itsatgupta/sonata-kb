@@ -157,6 +157,30 @@ def _ask_openai(q: str, api_key: str):
     return {"question": q, "answer": answer, "citations": citations, "mode": "openai"}
 
 
+@app.get("/api/upgrade-analysis")
+def upgrade_analysis(from_version: str, to_version: str, client: str = "Royal London"):
+    """Compare two trunk releases and produce impact assessment.
+
+    Usage:
+        GET /api/upgrade-analysis?from_version=v16.4&to_version=v16.5
+        GET /api/upgrade-analysis?from_version=v16.4&to_version=v16.5&client=Royal+London
+    """
+    from upgrade_analyzer import analyze_upgrade, format_report
+
+    try:
+        analysis = analyze_upgrade(from_version, to_version, client)
+        report = format_report(analysis)
+        return {
+            "from_version": from_version,
+            "to_version": to_version,
+            "client": client,
+            "report": report,
+            "data": analysis,
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

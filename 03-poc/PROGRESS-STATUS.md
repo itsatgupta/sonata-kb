@@ -1,19 +1,42 @@
 # POC Progress & Handoff Status
 
-**Last updated:** 2026-07-31
+**Last updated:** 2026-08-02
 **Read this first in any new session** — it records where the POC stands, what is verified,
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
 **Where we left off (this session):** **Phase-0 exit COMPLETE** (27/27 Correct, SME sign-off).
-**DECISION MADE: POC v2 Voice only (focus on completing this first)**:
-- **POC v2 Voice** (2 weeks, $0, Whisper STT + Web Speech TTS, Vercel + Render)
-- **All code scaffolds delivered**: orchestrator_voice.py, main.py, VoiceAssistant.jsx
-- **Deployment guide**: DEPLOYMENT-POC-V2.md (step-by-step Vercel + Render)
-- **Demo script**: DEMO-SCRIPT-POC-V2.md (45-min stakeholder walkthrough)
-- **Troubleshooting**: TROUBLESHOOTING-POC-V2.md
-- **Comprehensive deck**: 16-slide PPT with POC v2 + Phase 1 strategy
-**Next:** User integrates code → deploys → demos POC v2 voice → then decides Phase 1
+**POC v2 Voice DEPLOYED & WORKING**:
+- **Backend**: Render (https://sonata-kb.onrender.com) — Whisper STT + orchestrator + wiki index deployed
+- **Frontend**: Vercel (https://sonata-kb.vercel.app) — Voice + Text chat with polished UI
+- **Voice pipeline**: Whisper transcribes → orchestrator answers → Web Speech speaks back (verified)
+- **Text chat**: 3 modes — Direct ($0, raw chunks), OpenAI (~$0.001, GPT-3.5), Claude (~$0.11)
+- **UI**: Gradient header, Chat Bot / Voice Bot sections, hover tooltips, query history, mode selector
+- **OpenAI API key**: Set in Render env vars (for cheap text queries)
+- **Wiki index data**: Committed to git (`data/wiki.json` + `data/wiki_directupload.json`)
+
+**Data Sources Discovered (for Upgrade + Defect POCs):**
+- **CART tests**: Jira filter `103721` — Xray test sets per module/version (accessible)
+- **Defect tracker**: Jira filter `90250` — incidents, service requests (accessible)
+- **Royal London defects**: Project `RLSI` — defects, incidents with components (accessible)
+- **Wiki release notes**: 16.4 (`page_id: 1001572222`), 16.5 (`page_id: 1007867808`) — NOT YET INDEXED
+- **Upgrade catalogue alignment**: `08-central-upgrade-team-alignment/catalogue-alignment.md` — defines exact deliverables to produce
+
+**Upgrade Analysis POC Status:**
+- `upgrade_analyzer.py` created (backend module)
+- `/api/upgrade-analysis` endpoint added to `main.py`
+- **BLOCKER**: Wiki release notes (16.4, 16.5) not indexed yet — need ingestion before POC works
+- **Jira access confirmed**: fixVersion values are "Raglan 14.9 R12/R13" (not "v16.4/v16.5")
+
+**Defect Triage POC Status:**
+- Data sources confirmed (RLSI project, CART filter, defect tracker)
+- Not yet built — starts after Upgrade Analysis POC
+
+**Known issues:**
+- Whisper transcription slightly off on domain terms (expected — semantic retrieval still works)
+- Wiki index only has searchEmployer page — release notes need ingestion
+
+**Next:** Ingest release notes (16.4, 16.5) → build Upgrade Analysis POC → then Defect Triage POC
 
 **This session also captured:** a proposed **Defect Triage Assistant** workstream
 (`07-future-roadmap/defect-triage-assistant.md`) and a **Support / service-desk triage agent**
