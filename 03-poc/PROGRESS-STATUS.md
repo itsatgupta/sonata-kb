@@ -7,6 +7,10 @@ what is blocked, and the exact commands to continue. The repo is otherwise expla
 
 **Where we left off (this session):** **Phase-0 exit COMPLETE — both pilot features SME-graded & PASSED**
 (Feature 1: 27/27, Pratigya; Feature 2: 19/21, Sanjay Joshi). **POC v2 Voice DEPLOYED & WORKING**:
+**This session fix:** `wiki_search` now searches **all indexed namespaces** when `WIKI_NAMESPACE` is unset
+(live app) — previously it only searched the Feature-1 `wiki` index, so Direct-Uploads questions
+(e.g. LIBSON-3635 objective) returned "provided context does not contain information". **Needs Render
+backend redeploy to take effect.**
 - **Backend**: Render (https://sonata-kb.onrender.com) — Whisper STT + orchestrator + wiki index deployed
 - **Frontend**: Vercel (https://sonata-kb.vercel.app) — Voice + Text chat with polished UI
 - **Voice pipeline**: Whisper transcribes → orchestrator answers → Web Speech speaks back (verified)
@@ -84,6 +88,7 @@ go/no-go threshold — its watch rows feed the Phase-1 data-quality backlog.
 | Namespaces | `WIKI_NAMESPACE` env / `--namespace` arg on `wiki_ingest.py` and `run_eval.py`; `--questions` / `--results` args on `run_eval.py`. |
 | Orchestrator | **Prompt caching** (system + last tool) and **usage tracking** (`usage_summary()`) added. Model default `claude-sonnet-5`. |
 | Eval harness | `run_eval.py` lazy-imports orchestrator so `WIKI_NAMESPACE` is honoured; UTF-8 CSV/stdout (Windows cp1252 was crashing runs on `≤`/`→`). |
+| Cross-feature search | `tools/wiki_tool.py` — `wiki_search` searches every indexed namespace when `WIKI_NAMESPACE` is unset (live app) and re-ranks merged hits by score; eval runs that pin `WIKI_NAMESPACE` keep single-namespace isolation. Fixes "does not contain information" for non-Feature-1 questions (e.g. LIBSON-3635 objective). |
 
 ## Measured eval cost (feature 2, 21 questions)
 

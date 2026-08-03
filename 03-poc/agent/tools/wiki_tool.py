@@ -11,12 +11,34 @@ import requests
 from dataclasses import dataclass, asdict
 from typing import Optional
 
-from retrieval.index import VectorIndex
+from retrieval.index import DATA_DIR, VectorIndex
 
 WIKI_BASE_URL = os.environ.get("WIKI_BASE_URL", "").rstrip("/")
 WIKI_API_TOKEN = os.environ.get("WIKI_API_TOKEN", "")
 
-_index = VectorIndex(namespace=os.environ.get("WIKI_NAMESPACE", "wiki"))
+# Indexes are loaded lazily per namespace. The eval harness pins WIKI_NAMESPACE to
+# a single feature index; the live app leaves it unset so EVERY indexed namespace
+# is searched — otherwise questions about any feature beyond the first (e.g. the
+# Direct Uploads LIBSON-3635 page in `wiki_directupload`) return "not found".
+_indexes: dict[str, VectorIndex] = {}
+
+
+def _resolve_namespaces() -> list[str]:
+    explicit = os.environ.get("WIKI_NAMESPACE")
+    if explicit:
+        return [explicit]
+    if DATA_DIR.is_dir():
+        namespaces = sorted(p.stem for p in DATA_DIR.glob("*.json"))
+        if namespaces:
+            return namespaces
+    return ["wiki"]  # fallback when nothing is indexed yet
+
+
+def _index_for(namespace: str) -> VectorIndex:
+    idx = _indexes.get(namespace)
+    if idx is None:
+        idx = _indexes[namespace] = VectorIndex(namespace=namespace)
+    return idx
 
 
 @dataclass
@@ -30,10 +52,26 @@ class WikiChunk:
 
 
 def wiki_search(query: str, space: Optional[str] = None, max_results: int = 5) -> list[dict]:
-    """Hybrid (keyword + vector) search over indexed wiki chunks. Read-only."""
-    hits = _index.search(query, filters={"space": space} if space else None, top_k=max_results)
+    """Hybrid (keyword + vector) search over indexed wiki chunks. Read-only.
+
+    Searches every indexed namespace (unless WIKI_NAMESPACE pins one, as the eval
+    harness does), merges the hits, re-ranks by similarity score, and dedupes so
+    the top results can come from any feature's index.
+    """
+    merged = []
+    for ns in _resolve_namespaces():
+        for h in _index_for(ns).search(
+            query, filters={"space": space} if space else None, top_k=max_results * 2
+        ):
+            merged.append((h["score"], h))
+
     results = []
-    for h in hits:
+    seen = set()
+    for _score, h in sorted(merged, key=lambda item: item[0], reverse=True):
+        key = (h["metadata"]["page_title"], h["metadata"].get("section_heading", ""), h["text"][:200])
+        if key in seen:
+            continue
+        seen.add(key)
         chunk = WikiChunk(
             page_title=h["metadata"]["page_title"],
             section_heading=h["metadata"].get("section_heading", ""),
@@ -45,6 +83,8 @@ def wiki_search(query: str, space: Optional[str] = None, max_results: int = 5) -
                      f"(updated {h['metadata']['last_modified']})",
         )
         results.append(asdict(chunk))
+        if len(results) >= max_results:
+            break
     return results
 
 
