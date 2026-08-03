@@ -1,9 +1,9 @@
 # POC Findings — from SME grading & eval runs
 
-**Last updated:** 2026-08-01
+**Last updated:** 2026-08-03
 Companion to `03-poc/PROGRESS-STATUS.md`. Failure modes and data-quality findings that feed the
-Phase-1 backlog (`02-phases/phase-1-functional-kb.md`), plus the go/no-go result for the graded
-feature-1 eval.
+Phase-1 backlog (`02-phases/phase-1-functional-kb.md`), plus the go/no-go results for both graded
+pilot evals (feature 1 & feature 2).
 
 ---
 
@@ -67,11 +67,22 @@ feature-1 eval.
 
 ---
 
-## Feature 2 — Direct Uploads saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6) — **DEFERRED**
+## Feature 2 — Direct Uploads saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6) — PASS
 
 - Eval: `agent/eval/test_questions_directupload.md` (21 questions) → `agent/eval/results_directupload.csv`
-  (20/21 cited).
-- **Status: deferred (2026-08-01)** — feature-1 (searchEmployer pagination) is the single go-forward POC
-  enhancement; Sanjay Joshi's grading is parked. Wiki index, eval set, and briefing
-  (`agent/eval/GRADING-BRIEFING.md`, which flags 3 rows for specific judgment and the general LIBSON-3635
-  helpdesk-ticket drift) are kept intact for a future run.
+  (21 graded, 20/21 cited).
+- SME grading (Sanjay Joshi): **19/21 Correct, 2 partial → 90.5% correct-with-citation**.
+- Go/no-go threshold (≥80%, i.e. ≥17/21): **PASS**.
+- No `wrong` / `hallucinated_citation` rows.
+
+### Watch rows (graded `partial` — feed the Phase-1 data-quality backlog)
+
+1. **Q10 — "What changed about the saveExternalCorrespondence SBS in Sonata 16.6?"** — stays on the
+   FEAT-10148 / LIBSON-3635 initiative and 2MB→10MB, but drifts toward the LIBSON-3635 helpdesk ticket
+   ("web upload limit") — real source, partly outside the spec page.
+2. **Q14 — "Does this enhancement change the RDA upload functionality?"** — hedges ("if you mean
+   LIBSON-3635…") instead of asserting "No — RDA already allows 10MB and is explicitly out of scope".
+
+→ Phase-1 action: retrieval should rank the wiki spec page above cross-project helpdesk tickets for
+pilot features; the answer template should assert out-of-scope exclusions directly. Both map to known
+issue #1 (Jira free-text drift) in `PROGRESS-STATUS.md`.

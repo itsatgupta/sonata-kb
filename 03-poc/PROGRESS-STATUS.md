@@ -1,12 +1,12 @@
 # POC Progress & Handoff Status
 
-**Last updated:** 2026-08-02
+**Last updated:** 2026-08-03
 **Read this first in any new session** — it records where the POC stands, what is verified,
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
 
-**Where we left off (this session):** **Phase-0 exit COMPLETE** (27/27 Correct, SME sign-off).
-**POC v2 Voice DEPLOYED & WORKING**:
+**Where we left off (this session):** **Phase-0 exit COMPLETE — both pilot features SME-graded & PASSED**
+(Feature 1: 27/27, Pratigya; Feature 2: 19/21, Sanjay Joshi). **POC v2 Voice DEPLOYED & WORKING**:
 - **Backend**: Render (https://sonata-kb.onrender.com) — Whisper STT + orchestrator + wiki index deployed
 - **Frontend**: Vercel (https://sonata-kb.vercel.app) — Voice + Text chat with polished UI
 - **Voice pipeline**: Whisper transcribes → orchestrator answers → Web Speech speaks back (verified)
@@ -47,9 +47,9 @@ capability gated on client-attribution data and draft-then-approve write governa
 
 ## The two pilot features
 
-The POC started with **two** small pilot features in parallel. **Feature 1 is the single go-forward
-enhancement** (graded & passed); **feature 2 is deferred** — its wiki index, eval set, and briefing
-remain intact for a future run.
+The POC started with **two** small pilot features in parallel. **Both are now SME-graded & passed.**
+Feature 1 remains the single go-forward enhancement; feature 2 (direct uploads) also cleared its
+go/no-go threshold — its watch rows feed the Phase-1 data-quality backlog.
 
 ### Feature 1 — searchEmployer SBS pagination (RLSI-6059, Sonata 16.2)
 - Wiki page: `RLSI-6059 searchEmployer SBS to support pagination` (space CliRln, id **973706490**)
@@ -60,13 +60,13 @@ remain intact for a future run.
 - Eval: `eval/test_questions.md` (27 questions) → `eval/results.csv` — **27/27 Correct (100%), go/no-go PASS** (SME-graded)
 - Key spec: optional `pagingRange` element; default 20 results/page from index 1; ordered by Employer Number (sloc_code)
 
-### Feature 2 — Direct Uploads: saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6) — **DEFERRED**
+### Feature 2 — Direct Uploads: saveExternalCorrespondence size allowance (FEAT-10148 / LIBSON-3635, Sonata 16.6) — **COMPLETE (PASS)**
 - Wiki page: `LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs` (space CliStl, id **1001573493**)
 - Jira: FEAT-10148 (work package), FEAT-10149 (IA), FEAT-10150 (design), BASE-464868 (story),
   BASE-464872 (release note, 16.6)
 - SME: **Sanjay Joshi**
 - Index namespace: `wiki_directupload` → `data/wiki_directupload.json` (15 chunks)
-- Eval: `eval/test_questions_directupload.md` (21 questions) → `eval/results_directupload.csv` — **20/21 cited, awaiting grading**
+- Eval: `eval/test_questions_directupload.md` (21 questions) → `eval/results_directupload.csv` — **19/21 correct (90.5%), go/no-go PASS** (SME-graded: Sanjay Joshi; ≥17/21 = 80% threshold)
 - Key change: hardcoded upload limit **2MB → 10MB**; RDA already at 10MB (out of scope); existing error message must be maintained
 - **Grading instructions:** `eval/GRADING-BRIEFING.md` (rubric + the specific rows each SME must judge + 80% go/no-go thresholds)
 
@@ -120,8 +120,9 @@ and lower `max_tokens`. Not yet applied — pending decision.
   `6d942bf`). Includes PROGRESS-STATUS.md, the CLAUDE.md pointer, and the filled candidate one-pagers.
 - **Feature 1 (Pratigya)**: graded — **27/27 Correct (100%)**, go/no-go **PASS**, **live demo delivered
   & sign-off obtained (Pratigya happy)**. Findings in `03-poc/poc-findings.md`. Single go-forward POC enhancement.
-- **Feature 2 (Sanjay Joshi)**: **deferred** — grading on `eval/results_directupload.csv` parked; wiki
-  index, eval set, and briefing kept intact for a future run.
+- **Feature 2 (Sanjay Joshi)**: graded — **19/21 correct (90.5%)**, go/no-go **PASS** (≥17/21 threshold).
+  Two `partial` rows (Q10 drift to LIBSON-3635 helpdesk ticket; Q14 hedged RDA answer) → Phase-1
+  data-quality backlog. Findings: `03-poc/poc-findings.md`.
 - **Next**: **begin Phase-1 execution** — 1) enumerate Wiki spaces + Jira projects for full ingestion;
   2) kick off the Feature/Module taxonomy SME workshop (the long pole); 3) add Jira bulk-ingestion +
   generalize `wiki_ingest.py`; 4) apply POC cost levers; 5) rotate the Jira PAT in `~/.claude/mcp.json`.
@@ -131,11 +132,11 @@ and lower `max_tokens`. Not yet applied — pending decision.
 
 ## After SME grading — action plan
 
-1. **Consolidate & score** — done (feature 1: 27/27 Correct, 100%). Feature 2 deferred.
-2. **Go/no-go** — **PASS** on feature 1 (≥22/27 threshold; 27/27). Phase-0 exit criterion met.
+1. **Consolidate & score** — done (feature 1: 27/27 Correct, 100%; feature 2: 19/21 Correct, 90.5%).
+2. **Go/no-go** — **PASS** on both (feature 1: 27/27 ≥ 22; feature 2: 19/21 ≥ 17). Phase-0 exit criterion met for the full pilot.
 3. **Write `03-poc/poc-findings.md`** — done (findings + data-quality backlog).
 4. **Demo / sign-off** — **DONE**: live demo delivered to Pratigya; she is happy (sign-off obtained).
-5. **If a feature fails** — n/a (feature 1 passed; no re-run needed).
+5. **If a feature fails** — n/a (both features passed; no re-run needed).
 6. **Phase 1 planning** — draft done (`02-phases/phase-1-implementation-plan.md`); **execution is the
    next step** — SME workshop for the taxonomy is the long pole, start it early.
 
