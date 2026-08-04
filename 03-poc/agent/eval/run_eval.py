@@ -65,7 +65,9 @@ def run():
               f"questions per the template before running eval.")
         return
 
-    with open(args.results, "w", newline="", encoding="utf-8") as out:
+    # utf-8-sig writes a UTF-8 BOM so the CSV opens cleanly in Windows Excel (which
+    # otherwise mis-decodes BOM-less UTF-8 as ANSI). This is the SME-grading artifact.
+    with open(args.results, "w", newline="", encoding="utf-8-sig") as out:
         writer = csv.writer(out)
         writer.writerow(
             ["question", "expected_citation_contains", "expected_answer_gist", "actual_answer",

@@ -24,10 +24,14 @@ account) via DeepSeek's Anthropic-compatible endpoint — config-only, no wire-f
 `orchestrator.py` model is now env-driven (`LLM_MODEL`, default `deepseek-v4-pro`); `ANTHROPIC_BASE_URL`
 + `LLM_MODEL` added to `.env` (DeepSeek key in `ANTHROPIC_API_KEY`). `config/env.py` now makes the
 provider vars (key/base-url/model) authoritative from `.env`, dropping stale/injected shell values.
-**VERIFIED**: smoke question ("What is the default page size for searchEmployer?") answered with correct
-citations via DeepSeek (3 calls). **Remaining**: Render redeploy with DeepSeek key + `ANTHROPIC_BASE_URL`;
-then optionally re-run eval. To go back to Claude: set `LLM_MODEL=claude-sonnet-5` and remove
-`ANTHROPIC_BASE_URL`.
+**VERIFIED**: smoke question answered with correct citations via DeepSeek (3 calls). **EVAL (DeepSeek)**:
+27/27 answers carry a citation (100%), all tool-grounded (real wiki/Jira sources, none hallucinated).
+Expected-citation exact-match is 37% only because DeepSeek cites the pagination page RLSI-6059 + linked
+Jiras (BASE-458911 etc.) instead of the test's hardcoded "SFC-04". **SME review IN PROGRESS** — sent
+2026-08-04 for `score_manual` grading of `eval/results_deepseek.csv` (file verified clean UTF-8; the CSV is
+open in Excel, and future eval runs write BOM'd CSVs so Excel decodes correctly). **Remaining**: SME grade;
+Render redeploy with DeepSeek key + `ANTHROPIC_BASE_URL`. To go back to Claude: set `LLM_MODEL=claude-sonnet-5`
+and remove `ANTHROPIC_BASE_URL`.
 
 **Data Sources Discovered (for Upgrade + Defect POCs):**
 - **CART tests**: Jira filter `103721` — Xray test sets per module/version (accessible)
