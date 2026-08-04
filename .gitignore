@@ -21,3 +21,7 @@ data/
 # --- OS noise ---
 .DS_Store
 Thumbs.db
+
+# --- Excel temporary/lock files (open workbooks) ---
+~$*.xlsx
+~$*.xls
