@@ -9,19 +9,25 @@ orchestrator call BEFORE reading their variables. Without this, a fresh shell ru
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 _ENV_FILE = Path(__file__).resolve().parents[1] / ".env"
 
 
 def load_env() -> Path:
-    """Load .env into os.environ. Safe to call repeatedly (no override)."""
+    """Load .env into os.environ. Safe to call repeatedly."""
     load_dotenv(_ENV_FILE, override=False)
+    vals = dotenv_values(_ENV_FILE)
+    # The .env file is the documented source of truth for LLM provider config
+    # (CLAUDE.md rule 5). load_dotenv(override=False) above lets a stale value
+    # inherited from the shell/IDE/Claude-Code harness shadow the .env value (e.g. an
+    # old ANTHROPIC_API_KEY), so re-apply these three explicitly.
+    for key in ("ANTHROPIC_API_KEY", "ANTHROPIC_BASE_URL", "LLM_MODEL"):
+        if vals.get(key):
+            os.environ[key] = vals[key]
     # Claude Code spawns child processes with ANTHROPIC_BASE_URL set to its own local
-    # session proxy (http://localhost:<port>/v1). The POC orchestrator must call the
-    # real Anthropic API with the .env key, so drop any inherited localhost proxy.
-    # A non-localhost base URL (e.g. a corporate gateway set in .env or the shell)
-    # is preserved.
+    # session proxy (http://localhost:<port>/v1). If .env did not set a base URL the
+    # harness value would leak through above, so drop any inherited localhost proxy.
     base = os.environ.get("ANTHROPIC_BASE_URL", "")
     if base.startswith("http://localhost:") or base.startswith("http://127.0.0.1:"):
         os.environ.pop("ANTHROPIC_BASE_URL", None)

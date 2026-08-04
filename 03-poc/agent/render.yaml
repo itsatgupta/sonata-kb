@@ -10,6 +10,10 @@ services:
         sync: false
       - key: ANTHROPIC_API_KEY
         sync: false
+      # Point the answer engine at DeepSeek (Anthropic-compatible endpoint). Put your
+      # DeepSeek key in ANTHROPIC_API_KEY above; optionally set LLM_MODEL (deepseek-v4-pro|deepseek-v4-flash).
+      - key: ANTHROPIC_BASE_URL
+        value: https://api.deepseek.com/anthropic
       - key: CONFLUENCE_PAT
         sync: false
       - key: JIRA_PAT

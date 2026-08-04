@@ -1,6 +1,6 @@
 # POC Progress & Handoff Status
 
-**Last updated:** 2026-08-03
+**Last updated:** 2026-08-04
 **Read this first in any new session** — it records where the POC stands, what is verified,
 what is blocked, and the exact commands to continue. The repo is otherwise explained in
 `README.md`, `CLAUDE.md`, and `SETUP-AND-EXECUTION-GUIDE.md`.
@@ -18,6 +18,16 @@ backend redeploy to take effect.**
 - **UI**: Gradient header, Chat Bot / Voice Bot sections, hover tooltips, query history, mode selector
 - **OpenAI API key**: Set in Render env vars (for cheap text queries)
 - **Wiki index data**: Committed to git (`data/wiki.json` + `data/wiki_directupload.json`)
+
+**This session (answer-engine provider):** swapped the default LLM from Claude to **DeepSeek** (paid
+account) via DeepSeek's Anthropic-compatible endpoint — config-only, no wire-format change.
+`orchestrator.py` model is now env-driven (`LLM_MODEL`, default `deepseek-v4-pro`); `ANTHROPIC_BASE_URL`
++ `LLM_MODEL` added to `.env` (DeepSeek key in `ANTHROPIC_API_KEY`). `config/env.py` now makes the
+provider vars (key/base-url/model) authoritative from `.env`, dropping stale/injected shell values.
+**VERIFIED**: smoke question ("What is the default page size for searchEmployer?") answered with correct
+citations via DeepSeek (3 calls). **Remaining**: Render redeploy with DeepSeek key + `ANTHROPIC_BASE_URL`;
+then optionally re-run eval. To go back to Claude: set `LLM_MODEL=claude-sonnet-5` and remove
+`ANTHROPIC_BASE_URL`.
 
 **Data Sources Discovered (for Upgrade + Defect POCs):**
 - **CART tests**: Jira filter `103721` — Xray test sets per module/version (accessible)

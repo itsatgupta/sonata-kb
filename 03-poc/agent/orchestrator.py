@@ -25,7 +25,11 @@ import anthropic
 
 from tools import wiki_tool, jira_tool, bitbucket_tool, xray_tool
 
-MODEL = "claude-sonnet-5"  # POC default — swap freely, this isn't load-bearing
+# Model selection. Default is DeepSeek via its Anthropic-compatible endpoint — set
+# ANTHROPIC_BASE_URL in .env (see config/env.example.txt). Override with LLM_MODEL;
+# to go back to Claude, set LLM_MODEL=claude-sonnet-5 and point ANTHROPIC_BASE_URL
+# at the real Anthropic API.
+MODEL = os.environ.get("LLM_MODEL", "deepseek-v4-pro")
 
 SYSTEM_PROMPT = """You are the Sonata Knowledge Assistant, a POC for Bravura Solutions.
 
@@ -91,6 +95,8 @@ def _run_tool(name: str, tool_input: dict) -> str:
 
 def ask(question: str, history: list[dict] | None = None) -> tuple[str, list[dict]]:
     """Run one turn. Returns (answer_text, updated_history)."""
+    # Base URL comes from ANTHROPIC_BASE_URL in the environment (set to the DeepSeek
+    # Anthropic-compatible endpoint in .env). The SDK reads it automatically.
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     messages = (history or []) + [{"role": "user", "content": question}]
 

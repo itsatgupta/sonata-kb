@@ -54,10 +54,21 @@ openai>=1.0.0
    - Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 5. Add environment variables:
    - `OPENAI_API_KEY` = your key
-   - `ANTHROPIC_API_KEY` = your Claude key (existing)
+   - `ANTHROPIC_API_KEY` = your DeepSeek key (see DeepSeek backend note below)
+   - `ANTHROPIC_BASE_URL` = `https://api.deepseek.com/anthropic`
+   - `LLM_MODEL` = `deepseek-v4-pro` (optional; `deepseek-v4-flash` is cheaper/faster)
    - `CONFLUENCE_PAT` = your wiki PAT (existing)
    - `JIRA_PAT` = your Jira PAT (existing)
 6. Deploy
+
+> **DeepSeek backend (instead of Claude):** the orchestrator's tool-use loop speaks the
+> Anthropic Messages format, and DeepSeek exposes an Anthropic-compatible endpoint, so
+> switching is config-only. Put your DeepSeek API key (platform.deepseek.com) in
+> `ANTHROPIC_API_KEY`, set `ANTHROPIC_BASE_URL` to `https://api.deepseek.com/anthropic`,
+> and optionally set `LLM_MODEL`. To keep Claude instead, leave `ANTHROPIC_BASE_URL`
+> unset and use `LLM_MODEL=claude-sonnet-5` with an Anthropic key. Note the app prefers
+> the cheap `OPENAI_API_KEY` (GPT) path when present — remove/blank it to force the
+> DeepSeek agent path.
 
 Your backend URL will be: `https://sonata-voice-poc.onrender.com`
 
