@@ -1,0 +1,318 @@
+﻿question,expected_citation_contains,expected_answer_gist,actual_answer,citation_present,score_manual
+What is the purpose of the saveExternalCorrespondence SBS operation?,Wiki: Problem,Lets advisers save client documents onto the client correspondence tab in Sonata,"## Purpose of the `saveExternalCorrespondence` SBS Operation
+
+The `saveExternalCorrespondence` SBS operation is part of the **CorrespondenceService** domain in Sonata. Its core purpose is to expose the functionality of uploading external documents into Sonata, i.e., persisting documents that were created outside of Sonata into the Sonata system. It also supports uploading a **reference** to an externally held document (rather than the document itself).
+
+> *""Expose the existing Upload External Document functionality (which persists a document created externally of Sonata, to Sonata) as a service, with the additional ability to upload only a reference to an externally held document to Sonata.""*
+> — **Jira: BASE-110778** — P2 - Develop new saveExternalCorrespondence SBS service - PORT
+
+### Key Functional Details
+
+| Aspect | Detail |
+|---|---|
+| **WSDL** | `correspondenceService` (e.g., `http://localhost:8585/sonata/services/v30/correspondenceService?wsdl`) |
+| **Default behaviour** | Saves external correspondence to the **database** |
+| **File storage option** | An enhancement (Sonata 9.4) added a flag that, when enabled, saves correspondence with merge method `'EXT'` to **file** instead of the database. When the flag is `'N'` or not passed, the default database storage applies. |
+| **File size limit** | Originally hardcoded at **2MB**; later enhanced (LIBSON-3635) to allow documents up to **10MB** |
+| **Use case** | Primarily used by Advisers to save client documents (e.g., bank statements, external correspondence) onto the client's **Correspondence tab** in Sonata |
+
+> *""saveExternalCorrespondence is enhanced to add a new flag. On enabling this flag, all the external correspondence with merge method 'EXT' would be saved to file. and when flag is 'N' or not passed, all the external correspondence would be saved in the database.(default behavior)""*
+> — **Jira: BASE-224771** — SBS Operation saveExternalCorrespondence Enhanced with an Ability to Save External Correspondence to File
+
+> *""Currently the client uses saveExternalCorespondence SBS for the Advisers to save client documents onto the client correspondence tab on Sonata.""*
+> — **Wiki: LIBSON-3635 § What is the Problem / Opportunity**
+
+### Citations
+
+- **Jira: BASE-110778** — original development ticket defining the operation's purpose
+- **Jira: BASE-224771** — enhancement to add file storage flag (Sonata 9.4)
+- **Jira: BASE-227454** — test task confirming the file-storage enhancement
+- **Jira: BASE-221661** — release note: ""saveExternalCorrespondence enhanced to save PDF Binary data to a File when merge method is 'EXT'""
+- **Wiki: LIBSON-3635 § What is the Problem / Opportunity** — describes client usage and the 2MB→10MB file size increase
+- **Jira: BASE-363572** — confirms the workflow class `FlowActionSaveCorrespondence` backs this operation",True,
+What is the current hardcoded file size limit of the saveExternalCorrespondence SBS?,Wiki:,2MB,"The current hardcoded file size limit of the `saveExternalCorrespondence` SBS is **2MB**.
+
+This is documented in both the wiki and Jira:
+
+- **Wiki**: ""the saveExternalCorespondence SBS has a hardcoded file size limit of 2MB"" — [Wiki: LIBSON-3635 § What is the Problem / Opportunity](https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493)
+- **Jira**: LIBSON-3635 notes that during testing, ""the saveExternalCorrespondence sbs endpoint [returns an error] that the file size exceeds the max allowed of 2MB"" — [Jira: LIBSON-3635](https://helpdesk.bravurasolutions.com/browse/LIBSON-3635)
+
+There is a pending enhancement (LIBSON-3635, resolved, targeted for Stanlib 12.6 R35) to increase this limit from 2MB to **10MB**, as described in the solution overview and high-level requirements.",True,
+What is the new maximum document upload size after the LIBSON-3635 enhancement?,Wiki:,10MB,"After the LIBSON-3635 enhancement, the new maximum document upload size for the `saveExternalCorrespondence` SBS endpoint is **10MB** (increased from the previous hardcoded limit of 2MB).
+
+The solution overview states:
+
+> ""Enhance the existing saveExternalCorespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB""
+
+This is confirmed by the acceptance criteria, which specify that files **less than or equal to 10MB** load successfully, while files **greater than 10MB** are rejected with an error message.
+
+**Citations:**
+- Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § Solution Overview
+- Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § Acceptance Criteria (AC-01, AC-02, AC-03)
+- Jira: LIBSON-3635 — Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",True,
+What type of client document was too large to upload before this change?,Wiki: Problem,bank statements,"The type of client document that was too large to upload before this change was **bank statements** — documents larger than the 2MB hardcoded limit on the `saveExternalCorespondence` SBS.
+
+> ""The problem is that the saveExternalCorespondence SBS has a hardcoded file size limit of 2MB and the Adviser is not able to upload documents that are larger than this such as **bank statements**.""
+
+— [Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § What is the Problem / Opportunity](https://wiki.bravurasolutions.com/spaces/CliStl/pages/1001573493/LIBSON-3635+Direct+Uploads+-+Increase+document+size+allowance+for+saveExternalCorrespondence+sbs)",True,
+What Sonata release introduced the increased document size allowance?,Jira: BASE-464872,Sonata 16.6,"## Increased Document Size Allowance — Sonata Release
+
+The increased document size allowance for the `saveExternalCorrespondence` SBS request was introduced as part of **Sonata 16.7**.
+
+### What changed
+
+The hardcoded file size limit on the `saveExternalCorrespondence` SBS request was raised from **2MB to 10MB**, allowing advisers to upload larger client documents such as bank statements that previously exceeded the limit [^1].
+
+### Delivery details
+
+The feature was tracked under the work package **FEAT-10148** (`fixVersion: Sonata 16.7`), with supporting work (IA review, story, risk, rework, etc.) spanning Sonata 16.5 through 16.7 [^2]. The original enhancement request came from **LIBSON-3635** (delivered for Stanlib 12.6 R35) [^3].
+
+### Key Jira issues
+
+| Issue | Type | Fix Version |
+|---|---|---|
+| FEAT-10148 | Work Package | **Sonata 16.7** |
+| BASE-464868 | Story | Sonata 16.6 |
+| BASE-464513 | IA Review | Sonata 16.5 |
+| LIBSON-3635 | Enhancement | Stanlib 12.6 R35 |
+
+[^1]: Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § High Level Requirements — ""The current file size limit when loading documents through the saveExternalCorespondence SBS request is 2MB and this should be increased to 10MB""
+[^2]: Jira: FEAT-10148 — fix_versions: [""Sonata 16. 7""]
+[^3]: Jira: LIBSON-3635 — fix_versions: [""Stanlib 12.6 R35""]",True,
+What is the objective of the LIBSON-3635 direct uploads enhancement?,Wiki: Objectives,allow documents larger than 2MB through the saveExternalCorrespondence SBS request,"The objective of **LIBSON-3635** is to increase the document size allowance on the `saveExternalCorrespondence` SBS endpoint.
+
+**Background:** The document upload size on the web had already been raised from 2MB to 100MB, but the `saveExternalCorrespondence` SBS endpoint still enforced a 2MB maximum. This caused the endpoint to reject uploads larger than 2MB with an error, even though the web layer accepted them. The enhancement raises that server‑side limit to **10MB** to close the gap.
+
+**Details:**
+
+| Field | Value |
+|---|---|
+| **Key** | LIBSON-3635 |
+| **Type** | Enhancement |
+| **Status** | Resolved |
+| **Fix Version** | Stanlib 12.6 R35 |
+| **Component** | Sonata RDA |
+
+> **Citation:** Jira: LIBSON-3635 — *Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs*",True,
+Why was the document size allowance increased for saveExternalCorrespondence?,Wiki: Problem,advisers could not upload documents larger than 2MB (e.g. bank statements); improve adviser and client experience on the client web platform,"## Why the document size allowance was increased for `saveExternalCorrespondence`
+
+The `saveExternalCorrespondence` SBS endpoint had a **hardcoded file size limit of 2MB**, which was causing a practical problem for advisers: they could not upload larger client documents such as **bank statements**[^1].
+
+The specific trigger was that the document upload size on the web platform had already been increased from 2MB to 100MB. During testing, users hit the `saveExternalCorrespondence` SBS endpoint and received an error that the file size exceeded the max allowed 2MB — so a ticket was raised to bring the SBS limit in line[^2].
+
+The goal was to **enhance the adviser and client experience** by updating the limit from **2MB to 10MB**, allowing larger files (up to 10MB) to be successfully uploaded and stored on the client's correspondence tab in the Sonata RDA[^3].
+
+**Citations:**
+
+[^1]: Wiki: LIBSON-3635 § What is the Problem / Opportunity — ""the saveExternalCorespondence SBS has a hardcoded file size limit of 2MB and the Adviser is not able to upload documents that are larger than this such as bank statements.""
+[^2]: Jira: LIBSON-3635 — ""Document upload size was increased on web from 2MB to 100MB. When testing the size limit … I recieved the error from the saveExternalCorrespondence sbs endpoint that the file size exceeds the max allowed of 2MB. We therefore need to raise a ticket … to increase this limit to 10MB.""
+[^3]: Wiki: LIBSON-3635 § High Level Requirements — ""The current file size limit when loading documents through the saveExternalCorespondence SBS request is 2MB and this should be increased to 10MB.""",True,
+Why is the RDA upload functionality out of scope for this change?,Wiki: Out of Scope,"it already allows a 10MB limit, so no change is required","The answer comes from the design page for **LIBSON-3635** (Direct Uploads – Increase document size allowance for `saveExternalCorrespondence` SBS).
+
+According to the wiki, RDA upload functionality is listed as out of scope for this change with the following rationale:
+
+> **CS-01 — RDA upload functionality:** No changes will be required to the RDA as this currently allows for a 10MB limit.
+
+**Citation:** Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § Out of Scope (updated 2026-07-02)
+
+In short: the problem being addressed was that the `saveExternalCorrespondence` SBS had a hardcoded **2MB** file size limit, which was too restrictive for things like bank statements. The RDA already had a **10MB** limit, so it didn't need any modification — the fix was scoped to the SBS path only.",True,
+What must be maintained when the new upload size limit is reached?,Wiki: High Level Solutions,the existing error message shown when the limit is reached,"According to the design for LIBSON-3635 (Direct Uploads — Increase document size allowance for `saveExternalCorrespondence` SBS), when the new upload size limit is reached, **the existing message that is displayed when the limit is reached must be maintained**. The file size limit is being increased from the hardcoded 2MB to 10MB, but the user-facing message triggered upon hitting that limit is to remain unchanged.
+
+**Citation:** Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § High Level Solutions (updated 2026-07-02T01:18:27.000+10:00) — ""The existing message that is displayed when the limit is reached must be maintained""",True,
+What changed about the saveExternalCorrespondence SBS in Sonata 16.6?,Jira: BASE-464872,maximum document upload size increased from 2MB to 10MB,"## Change to `saveExternalCorrespondence` SBS in Sonata 16.6
+
+In Sonata 16.6, the `saveExternalCorrespondence` SBS was enhanced to **increase the document file size allowance from 2MB to 10MB**.
+
+This was delivered via **BASE-464870** (part of FEAT-10148 / LIBSON-3635), which appears in the 16.6.0.8 build changelog.
+
+### What was the problem?
+
+The `saveExternalCorrespondence` SBS had a **hardcoded file size limit of 2MB**, which prevented advisers from uploading larger documents such as bank statements. [Wiki: LIBSON-3635 § What is the Problem / Opportunity]
+
+### What changed?
+
+The allowed file size limit was increased from **2MB to 10MB**, enabling advisers to load client documents up to 10MB through the SBS. [Wiki: LIBSON-3635 § High Level Requirements]
+
+The existing functionality otherwise remained unchanged, and the existing error message displayed when the limit is exceeded was preserved. [Wiki: LIBSON-3635 § Assumptions, § Solution Overview]
+
+### Key sources:
+- **Jira: BASE-464870** — FEAT-10148 / LIBSON-3635 development story, fix version **Sonata 16.6** [Jira: BASE-464870]
+- **Wiki: LIBSON-3635 § Objectives** — ""The objective is to enhance saveExternalCorespondence SBS request to allow for documents that are larger than 2MB."" [Wiki: LIBSON-3635 § Objectives]
+- **Wiki: LIBSON-3635 § High Level Requirements** — HLR-01: increase file size limit from 2MB to 10MB [Wiki: LIBSON-3635 § High Level Requirements]
+- **Wiki: LIBSON-3635 § Solution Overview** — ""increasing the allowed file size limit to allow for documents that are up to 10MB"" [Wiki: LIBSON-3635 § Solution Overview]",True,
+Would a 5MB client document upload successfully after this enhancement?,Wiki:,Yes - documents up to 10MB are now allowed,"**Yes, a 5MB client document upload would succeed after this enhancement.**
+
+Here's the before-and-after:
+
+- **Before:** The `saveExternalCorrespondence` SBS had a **hardcoded limit of 2MB**, so any document larger than 2MB (including 5MB) would be rejected. [Wiki: LIBSON-3635 § What is the Problem / Opportunity]
+
+- **After:** The enhancement increases the allowed file size limit to **10MB**. Since 5MB is well under this new cap, it would upload successfully. [Wiki: LIBSON-3635 § High Level Solutions]
+
+The high-level requirement (HLR-01) confirms: *""The current file size limit when loading documents through the saveExternalCorespondence SBS request is 2MB and this should be increased to 10MB.""* [Wiki: LIBSON-3635 § High Level Requirements]
+
+The linked Jira issue (LIBSON-3635) shows this is **Resolved** and delivered in **Stanlib 12.6 R35**. [Jira: LIBSON-3635]",True,
+What does the LIBSON-3635 change assume about existing saveExternalCorrespondence functionality?,Wiki: Assumptions,Existing functionality remains unchanged (CA-01),"## What LIBSON-3635 Assumes About Existing `saveExternalCorrespondence` Functionality
+
+LIBSON-3635 is a straightforward enhancement to raise a hardcoded file size limit. It makes the following assumptions about the existing implementation:
+
+### 1. The endpoint already exists and is in active use
+The `saveExternalCorrespondence` SBS endpoint is a live, functioning service that advisers use to save client documents onto the client correspondence tab in Sonata. The change does not introduce a new endpoint — it enhances an existing one.
+
+> **Citation:** ""Currently the client uses saveExternalCorespondence SBS for the Advisers to save client documents onto the client correspondence tab on Sonata."" — *Wiki: LIBSON-3635 § What is the Problem / Opportunity*
+
+### 2. There is a hardcoded 2MB file size limit
+The existing implementation has a hardcoded maximum file size of **2MB**. Any file exceeding this is rejected.
+
+> **Citation:** ""the saveExternalCorespondence SBS has a hardcoded file size limit of 2MB"" — *Wiki: LIBSON-3635 § What is the Problem / Opportunity*
+
+### 3. An error message mechanism already exists
+When the size limit is exceeded, the endpoint already returns an error message. The change explicitly states this existing message must be preserved — meaning only the threshold value changes, not the error-handling behaviour.
+
+> **Citation:** ""The existing message that is displayed when the limit is reached must be maintained"" — *Wiki: LIBSON-3635 § High Level Solutions (HLS-01)*
+
+### 4. The SBS endpoint size validation is independent from the Web layer
+The Jira description notes that the web upload limit had already been raised from 2MB to 100MB, but the SBS endpoint still rejected files over 2MB. This confirms the assumption that the SBS layer performs its own independent file-size validation, separate from any client-side (web) checks.
+
+> **Citation:** ""Document upload size was increased on web from 2MB to 100MB. When testing … I received the error from the saveExternalCorrespondence sbs endpoint that the file size exceeds the max allowed of 2MB."" — *Jira: LIBSON-3635*
+
+### 5. The change is purely a constant/value increase (2MB → 10MB)
+The solution requires no architectural or behavioural changes — no new validation logic, no changes to storage, no changes to the API contract. It is a single value change from 2MB to 10MB.
+
+> **Citation:** ""Development will be required to enhance the existing saveExternalCorespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB from the current hardcoded limit of 2MB"" — *Wiki: LIBSON-3635 § High Level Solutions (HLS-01)*
+
+---
+
+**In summary**, the change assumes the `saveExternalCorrespondence` endpoint is a mature, working feature with an existing hardcoded 2MB limit and a functioning error-message path — and that raising that limit to 10MB is a low-risk, value-only change with no knock-on effects to the rest of the system.",True,
+What does the HLS-01 solution description say about the size limit change?,Wiki: High Level Solutions,increase the allowed file size limit from 2MB to 10MB,"Here's what the **HLS-01** solution description says about the size limit change, found on the LIBSON-3635 design page:
+
+---
+
+**HLS-01** is titled *""Enhance the existing saveExternalCorrespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB.""* [Wiki: LIBSON-3635 § High Level Solutions]
+
+The key details are:
+
+- **Current limit:** The existing `saveExternalCorrespondence` SBS request has a **hardcoded limit of 2MB**.
+- **New limit:** The file size allowance is being increased to allow documents **up to 10MB**.
+- **Existing behaviour preserved:** *""The existing message that is displayed when the limit is reached must be maintained.""* [Wiki: LIBSON-3635 § High Level Solutions]
+
+The **Solution Overview** summarises it simply as: *""Enhance the existing saveExternalCorespondence SBS request by increasing the allowed file size limit to allow for documents that are up to 10MB.""* [Wiki: LIBSON-3635 § Solution Overview]
+
+The corresponding **Acceptance Criteria** define the expected behaviour at the boundaries:
+
+| Criterion | Action | Expected Result |
+|-----------|--------|-----------------|
+| AC-01 | Load a file **less than 10MB** | File loaded successfully |
+| AC-02 | Load a file that is **exactly 10MB** | File loaded successfully |
+| AC-03 | Load a file **more than 10MB** | File fails to load with the existing size limitation message displayed |
+
+[Wiki: LIBSON-3635 § Acceptance Criteria]
+
+---
+
+**In short:** HLS-01 changes the upload size cap from 2MB → 10MB for the `saveExternalCorrespondence` SBS, while keeping the existing error message behaviour for anything exceeding 10MB.",True,
+Does this enhancement change the RDA upload functionality?,Wiki: Out of Scope,No - RDA already allows 10MB and is explicitly out of scope,"I'd be happy to help — but I need a bit more context first. Which specific enhancement are you asking about? 
+
+If you can point me to:
+
+- a **Jira ticket key** (e.g., `SONATA-12345`),
+- a **version range** (e.g., ""what changed between v10.5 and v10.6""),
+- or a **feature/component name** you're looking at,
+
+…then I can quickly look up whether it touches RDA upload functionality.",False,
+Does the change apply to the saveScheme or getMemberList operations?,,No evidence in indexed content - only saveExternalCorrespondence is mentioned,"I don't have enough context yet — could you clarify which change (or Jira ticket) you're asking about? For example, you could tell me a Jira key like `SONATA-4821` or a description of the change you're interested in, and I'll look it up.",False,
+Does the enhancement remove the file size limit on saveExternalCorrespondence?,Wiki:,"No - the limit is raised to 10MB, not removed","## No — the enhancement does **not remove** the file size limit on `saveExternalCorrespondence`
+
+It increases it. The current hardcoded limit of **2MB** is raised to **10MB**, but a limit remains in place. Files larger than 10MB will still be rejected with the existing error message.
+
+### Key details from LIBSON-3635:
+
+- **Current state**: The `saveExternalCorrespondence` SBS has a hardcoded file size limit of **2MB**. Advisers cannot upload larger documents such as bank statements.  
+  — *Wiki: LIBSON-3635 § What is the Problem / Opportunity*
+
+- **What changes**: The allowed file size limit is increased to allow documents up to **10MB**. The existing error message when the limit is reached is maintained.  
+  — *Wiki: LIBSON-3635 § High Level Solutions (HLS-01)*
+
+- **10MB+ behaviour**: Files over 10MB will still fail to load due to size limitations and the existing error message is displayed.  
+  — *Wiki: LIBSON-3635 § Acceptance Criteria (AC-03)*
+
+- **Status**: Resolved, delivered in **Stanlib 12.6 R35**.  
+  — *Jira: LIBSON-3635*",True,
+Does the LIBSON-3635 change affect the searchEmployer operation?,,No evidence - unrelated operation from a separate feature,"Based on the information retrieved, **LIBSON-3635 does not affect the `searchEmployer` operation.**
+
+Here is what LIBSON-3635 covers:
+
+> **Jira: LIBSON-3635** — *Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs* — The ticket's stated problem is that the `saveExternalCorrespondence` SBS endpoint had a 2MB file size limit that needed to be raised to 10MB to match the web-side increase to 100MB. It is classified as an Enhancement under the **Sonata RDA** component.[^1]
+
+The change is scoped exclusively to the `saveExternalCorrespondence` SBS endpoint's document size allowance. There is no mention of `searchEmployer` — a completely separate operation — in the ticket's summary, description, acceptance criteria, components, or linked issues.
+
+**Bottom line:** `searchEmployer` is unrelated to this change.
+
+[^1]: Jira: LIBSON-3635 — Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",True,
+What Jira story tracks the direct uploads document size enhancement?,Jira: BASE-464868,BASE-464868,"Here are the Jira issues that track the **Direct Uploads — document size enhancement**:
+
+---
+
+### Primary Story: **LIBSON-3635** (Enhancement)
+
+> **Summary:** *Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs*
+
+- **Type:** Enhancement
+- **Status:** Resolved
+- **Fix Version:** Stanlib 12.6 R35
+- **Component:** Sonata RDA
+- **Linked Issues:** FEAT-10148
+- **Citation:** *Jira: LIBSON-3635 — Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs*
+
+The problem it addresses: the `saveExternalCorrespondence` SBS endpoint had a hardcoded **2MB** file size limit, preventing advisers from uploading larger documents like bank statements. The enhancement raises the limit to **10MB**.[^1]
+
+---
+
+### Related Linked Issues
+
+| Issue | Type | Summary | Status | Fix Version |
+|-------|------|---------|--------|-------------|
+| **FEAT-10148** | Work Package | LIBSON-3635 - Direct Uploads - Increase document size allowance… | Closed | Sonata 16.7 |
+| **BASE-464870** | Development | FEAT-10148 - LIBSON-3635 … Story - Development | Closed | Sonata 16.6 |
+
+---
+
+So the **core story tracking the enhancement is LIBSON-3635**, wrapped by the work package **FEAT-10148**, with development delivered under **BASE-464870** (shipped in Sonata 16.6).
+
+[^1]: Wiki: LIBSON-3635: Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs § What is the Problem / Opportunity (updated 2026-07-02)",True,
+What is the status of the release-note ticket BASE-464872?,Jira: BASE-464872,Closed,"Here's the status of **BASE-464872**:
+
+| Field | Details |
+|-------|---------|
+| **Key** | BASE-464872 |
+| **Type** | Release Note |
+| **Status** | **Closed** |
+| **Fix Version** | Sonata 16.6 |
+| **Component** | SBS |
+| **Summary** | Sonata Business Service (SBS) — `saveExternalCorrespondence` request enhanced to increase the maximum document upload size from **2MB to 10MB**, improving the adviser and client experience on the client web platform. |
+| **URL** | [BASE-464872](https://helpdesk.bravurasolutions.com/browse/BASE-464872) |
+
+**Citation:** Jira: BASE-464872 — Sonata Business Service (SBS) - SBS saveExternalCorrespondence request enhanced to increase the maximum document upload size from 2MB to 10MB, improving the adviser and client experience on the client web platform
+
+The ticket is closed and targeted for the **Sonata 16.6** release.",True,
+What work package does the direct uploads enhancement belong to?,Jira:,FEAT-10148,"The ""Direct Uploads"" enhancement — specifically **""Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs""** — belongs to the work package:
+
+**FEAT-10148** — *""LIBSON-3635 - Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs""*
+
+**Details:**
+
+| Field | Value |
+|---|---|
+| **Work Package** | FEAT-10148 |
+| **Type** | Work Package |
+| **Status** | Closed |
+| **Fix Version** | Sonata 16.7 |
+| **Linked Issues** | BASE-464868, BASE-464513, BASE-464855, BASE-464856, BASE-464859, BASE-464866, LIBSON-3635 |
+
+**Citations:**
+- Jira: LIBSON-3635 — Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs (linked to FEAT-10148)
+- Jira: FEAT-10148 — LIBSON-3635 - Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs",True,
+What is the fixVersion of the direct uploads story BASE-464868?,Jira: BASE-464868,Sonata 16.6,"The fixVersion for **BASE-464868** is **Sonata 16.6**.
+
+**Summary:** FEAT-10148 - LIBSON-3635 - Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs - Story
+
+**Citation:** Jira: BASE-464868 — FEAT-10148 - LIBSON-3635 - Direct Uploads - Increase document size allowance for saveExternalCorrespondence sbs - Story",True,

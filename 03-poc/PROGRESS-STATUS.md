@@ -32,6 +32,11 @@ Jiras (BASE-458911 etc.) instead of the test's hardcoded "SFC-04" — SME confir
 `eval/results_deepseek.csv` has score_manual filled. **Remaining**: Render redeploy with DeepSeek key +
 `ANTHROPIC_BASE_URL`. To go back to Claude: set `LLM_MODEL=claude-sonnet-5` and remove `ANTHROPIC_BASE_URL`.
 
+**Feature 2 (Direct Uploads) DeepSeek eval run (2026-08-04):** `eval/results_feature2_deepseek.csv` —
+19/21 answers cite a source (parity vs Claude baseline's 20/21). **score_manual pending Sanjay Joshi**; file
+is Excel-ready (UTF-8 BOM). Claude baseline for comparison: `eval/results_directupload.csv` (19/21 correct,
+SME-graded).
+
 **Data Sources Discovered (for Upgrade + Defect POCs):**
 - **CART tests**: Jira filter `103721` — Xray test sets per module/version (accessible)
 - **Defect tracker**: Jira filter `90250` — incidents, service requests (accessible)
