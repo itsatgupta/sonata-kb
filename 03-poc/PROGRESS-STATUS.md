@@ -37,6 +37,11 @@ Jiras (BASE-458911 etc.) instead of the test's hardcoded "SFC-04" — SME confir
 is Excel-ready (UTF-8 BOM). Claude baseline for comparison: `eval/results_directupload.csv` (19/21 correct,
 SME-graded).
 
+**Prep track (next POC):** `07-future-roadmap/pre-poc-readiness.md` created — Client Profile +
+upgrade-impact data ask-list (handout-ready for the consultancy team), starting with **Royal London**.
+Next physical step: (1) send the Section 3 ask-list to the consultancy; (2) start WS2 (index 16.4/16.5
+release notes); (3) validate the fixVersion→trunk mapping (WS3). Gate: WS1 + WS3 done before the next POC.
+
 **Data Sources Discovered (for Upgrade + Defect POCs):**
 - **CART tests**: Jira filter `103721` — Xray test sets per module/version (accessible)
 - **Defect tracker**: Jira filter `90250` — incidents, service requests (accessible)
